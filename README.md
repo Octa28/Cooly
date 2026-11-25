@@ -76,10 +76,15 @@ Main navigation: **Fridge · Recipes · Shopping list · Settings**
 ```
 Cooly/
 ├── main.ipynb       # Data exploration and model prototyping (pandas, NumPy)
-├── site/
-│   └── index.html   # Mobile web app
+├── site/            # Mobile web app (plain HTML, CSS and JavaScript, no build step)
+│   ├── index.html   # Entry point
+│   ├── styles.css   # Light and dark theme, layout, print styles for PDF export
+│   ├── data.js      # Curated recipes, ingredients and example supermarket prices
+│   └── app.js       # Screens, matching, budget logic and k-NN similar recipes
 └── README.md
 ```
+
+The prototype keeps everything (fridge, preferences, shopping list) in the browser's local storage. Prices in `data.js` are example prices, not live offers.
 
 ## Getting started
 
@@ -88,7 +93,11 @@ git clone https://github.com/Octa28/Cooly.git
 cd Cooly
 ```
 
-- **Web app:** open `site/index.html` in a browser (use your browser's mobile view for the intended layout).
+- **Web app:** open `site/index.html` in a browser, or serve the folder and open http://localhost:8000 (use your browser's mobile view for the intended layout):
+
+```bash
+python3 -m http.server 8000 --directory site
+```
 - **Notebook:** open `main.ipynb` in Jupyter or VS Code with Python 3.11 and install the dependencies:
 
 ```bash

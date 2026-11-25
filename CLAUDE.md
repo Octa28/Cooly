@@ -1,784 +1,897 @@
-# CLAUDE.md — HCI & AI-Assisted Prototyping Knowledge Base (CSE12B, TU Delft)
+# CLAUDE.md: Cooly (HAIP Team 23, TU Delft)
 
-This file condenses the course material of **CSE12B: Human-Computer Interaction & AI-Assisted Prototyping** (TU Delft, 2026) — 10 lectures, 2 lab decks, 4 lab activities, reading lists, the TU Delft Risk-Planning Tool, the Universal Design cheat sheet, and three readings (Nielsen on heuristic evaluation, Moore & Arar on Conversational UX, Hitron et al. 2023 on AI bias in HRI).
+You are the main builder on **Cooly**, a course project for **CSE12B: Human-Computer Interaction & AI-Assisted Prototyping (HAIP)** at TU Delft. Six students work with you. They are learning Git, team software projects and AI-assisted prototyping at the same time, so they rely on you to think ahead, follow the course methods and keep the project on track.
 
-**How to use it in a project:** treat it as the design and evaluation standard. When you propose requirements, IA, wireframes, prototypes, code, studies or reports, use the methods and terms below and name the principle you are applying (e.g. "Nielsen #6 Recognition rather than recall", "UD principle 4 Perceptible information").
+Read this whole file at the start of every session. It is the single source of truth for **what** we build, **how** it must look and work, **which course rules** apply, and **which documentation you keep up to date without being asked**.
 
----
-
-## 0. Course & project context
-
-- **Running case:** the *Delft Tourism Kiosk / Delft Points of Interest (POI) app*, for tourists in Delft (Markt, Delft station). Personas include elderly international tourists, international students on a budget, wheelchair users, low-vision users, people holding umbrellas or luggage, and visitors with low digital literacy.
-- **Lab pipeline:** Lab 1 PACT + personas + scenarios → Lab 2 IA + card sorting + low-fi wireframes → Lab 3 interactive Figma prototype + accessibility + ethics/consent → Lab 4 rapid prototyping + peer evaluation → layered evaluation & Wizard of Oz.
-- **Tools:** Figma (Auto Layout, Components & Variants, prototype connections, overlays, contrast check). Alternatives: Miro, Balsamiq, Moqups. AI tools: LLMs, Figma AI or wireframe plugins, v0.dev, Cursor.
-- **Course requirement:** *document every AI iteration*: how AI outputs were modified, audited and corrected by the team.
-- **Deadlines (2026 course):** D2 mid-term slide decks due Wed 9 Dec 23:59. Earlier schedule items: optional draft of the user-experiment method, group project deadline, Buddycheck. Exam: written, closed book, pen only, multiple-choice and open questions. Exam questions cover lectures, labs, readings **and the group project**.
-- **Main textbook:** David Benyon, *Designing User Experience* (4th ed.): Ch. 4–6 (accessibility, UD, ethics) and Ch. 10 (evaluation).
+Where this file is not specific enough, use `docs/course-knowledge.md` (the full course knowledge base: lectures, labs, readings) for detail.
 
 ---
 
-## 1. HCI fundamentals (Lecture 1)
+## 0. Prime directives (if you remember nothing else)
 
-**HCI** is the study and practice of usability: technology people *want* to use, *can* use, and find *effective*. It is multidisciplinary.
+1. **Do the thinking for the team, but leave the decisions to them.** Propose, build, check and document on your own. Stop and ask only for things that are hard to undo or that affect other teammates' work (database schema, shared components, design tokens, deleting anything, merging into `main`).
+2. **Log every meaningful prompt** in the AI log (section 14.1), in the same commit as the change. The course grades this. Nobody should have to remind you.
+3. **Never fabricate** user-study data, participants, quotes, survey results, prices presented as real, or sources. Faking evaluation data means failing the project.
+4. **The team writes the analytical text.** For heuristic evaluations, UX justifications, critical reflections and AI-use reflections you supply evidence, structure and questions. You do not write their final wording (section 3).
+5. **Accessibility is a hard requirement.** It is not polish for later. WCAG 2.2 AA on every screen, in light and dark (section 12).
+6. **The design must not look AI-generated** (section 11). If a screen looks like a template, it is not done.
+7. **Mobile first, 390 × 844.** Test every screen at that size before calling it done.
+8. **Never push to `main`, never force-push, never commit secrets** (section 6).
+9. **Small steps:** plan first, build one thing, check it, commit it, then move on.
+10. **Explain briefly as you go.** Each member must be able to explain the project at the presentations and at the exam (section 2.3).
+11. **Name the principle.** When you make a design or evaluation choice, cite the course concept it applies, e.g. "Nielsen #6 Recognition rather than recall", "UD 5 Tolerance for error", "Hick's law".
+12. **Talk to the teammate in the language they write in** (usually Romanian). Code, UI text, commit messages, docs and slide material are always in **English**.
 
-**Humans vs computers** (complementary skills):
-- Humans are good at sensing low-level stimuli, pattern recognition, inductive reasoning, multiple strategies and adapting: "hard and fuzzy things".
-- Computers are good at counting, accurate storage and recall, fast consistent responses, calculation, repetition and sustained performance: "simple and sharply defined things".
-- Let each do what it does best.
+---
 
-**Levels of automation** (Taylor 2001, scrutable autonomous systems):
+## 1. The product
 
-| Level | Description |
+### 1.1 One-liner
+**Cooly is an AI-driven recipe recommender for students on a strict budget, built as a mobile web application.**
+
+| | |
 |---|---|
-| 0 | Human does the whole task except the actual operation |
-| 1 | Human asks the computer for options and selects one |
-| 2 | Computer suggests options |
-| 3 | Computer suggests options and proposes one |
-| 4a | Computer chooses and acts if the human approves |
-| 4b | Computer chooses and acts unless the human disapproves |
-| 5a | Computer acts and informs the human |
-| 5b | Computer does everything autonomously |
+| **Domain** | Budget cooking / grocery sharing |
+| **Target users** | Students on a strict budget |
+| **System goal** | AI-driven recommendation |
+| **Platform** | Mobile web application |
 
-**Usability definitions**
-- "A usable software system is one that supports the effective and efficient completion of tasks in a given work context" (Karat & Dayton 1995).
-- ISO 9241-11:2018 defines usability as effectiveness, efficiency and satisfaction. It applies to regular use, learning, infrequent use, the widest range of capabilities, minimising the risk of use errors, and maintenance.
-- ISO definition of **UX**: "a person's perceptions and responses resulting from the use and/or anticipated use of a product, system or service." See also Morville's UX Honeycomb.
+Users enter what is in their fridge, with quantities, and the most they will spend to complete a recipe. Cooly recommends recipes from a **curated set** that best match those ingredients. Results come in three colour-coded lists: **green** (cook right away), **yellow** (missing a few) and **red** (missing many). For missing ingredients, Cooly uses current offers from Dutch supermarkets (**Albert Heijn** and **Jumbo**) to show the cheapest way to complete a recipe, so students waste less food and spend less. A **k-nearest-neighbours (k-NN)** model suggests similar recipes, so users can discover alternatives to dishes they like.
 
-**Business case:** higher productivity; less training, fewer errors and less support; more accurate data; a selling point; may be required by law. Statistics cited: 85% abandon a site due to poor design; 50% of sales are lost because visitors cannot find content.
+> Cooly is a helper, not a safety tool. Always check food labels; recipe matches are not a medical guarantee for allergies.
 
-**Design must account for:** human cognitive, perceptual and motor limits; the specific user population; the physical and social environment; task requirements; and platform constraints.
+This disclaimer appears in onboarding (allergy step) and on every recipe detail page.
 
-### PACT framework (Benyon, after Carroll 2002)
-**People – Activities – Contexts – Technologies**
+### 1.2 User journey
+1. **Tell Cooly about yourself.** A short onboarding: allergies and intolerances, then diet, then kitchen equipment.
+2. **Fill your fridge.** Add ingredients with quantities (e.g. spinach 100 g, tomatoes 200 g, pasta 150 g).
+3. **Set your budget.** The maximum you'll spend to complete a recipe.
+4. **Get recipes grouped by readiness:**
 
-- **People:**
-  - Information input and output: visual, auditory, haptic, movement.
-  - Memory: sensory, short-term, long-term.
-  - Processing: reasoning, problem solving, skill, error.
-  - Emotion; individual differences.
-  - **Steps:** identify users → characteristics (age, domain experience, computer experience, pressure, frequency of use, freedom of choice, direct vs indirect use) → **user classes** ("a sub-set of end-users similar in system usage and relevant personal characteristics") → implications → **personas**.
-  - Expertise levels: expert, occasional, novice. The level is relative to each system.
-- **Personas:** a specific individual representing a core user class, with name, picture, age, background, personality, work role and attitudes. Pin them up and use them throughout design **and** evaluation.
-- **Activities → Task analysis / HTA (Hierarchical Task Analysis):**
-  - Decompose a goal into tasks and subtasks, with 4–8 tasks at the top level.
-  - Write **plans** describing order. Plan types: fixed sequence, optional, wait-for-event, cycles, time-sharing, discretionary, mixtures.
-  - Refining heuristics: paired actions, restructure, balance, generalise (the "make a cup of tea" example).
-  - Uses: the hierarchy suggests menu layout, task frequency suggests defaults, task sequences suggest dialogue design.
-  - Task analysis is never complete; rigid task-based design leads to an inflexible system.
-- **Contexts:** physical, social, organizational.
-- **Scenario:** "how and why the persona would use the product to complete a specific task in a specific context."
-- **Separation of concerns:** tasks and scenarios must **not** contain UI details, so they can be reused across PC, web, mobile, touch, voice or gesture.
-- **Technologies:** history from switch panels to AR, voice and BCI.
-- **Visibility and affordance:**
-  - Visibility is what can be seen.
-  - Affordance is what can be done with an object; perceived affordance is what the user *thinks* can be done.
-  - Mapping between controls and effects must be good.
-- **PACT output is used for:** (1) user requirements, (2) UI design, (3) evaluation, (4) help and manuals.
+   | List | Rule | Meaning |
+   |---|---|---|
+   | 🟢 **Ready to cook** | 0 missing | You have everything |
+   | 🟡 **Missing a few** | 1–3 missing | Buy a few things |
+   | 🔴 **Missing many** | 4+ missing | Needs a proper shop |
 
----
+   (The emoji are for this document only. The UI uses its own status marks; see section 11.6.)
+5. **Complete a recipe cheaply** using Albert Heijn and Jumbo offers. Add missing items to a shopping list grouped by store.
+6. **Discover alternatives**: similar recipes from k-NN.
 
-## 2. Requirements elicitation & analysis (Lecture 2)
+### 1.3 Features (from the project sheet and README)
 
-**Elicitation:** query techniques (focus groups, interviews, questionnaires). Choose methods per stakeholder; the reanimation-alert app for first responders was the class example.
-
-**User story:** *As a [type of user] I want [capability] such that [value].* It focuses on needs, not technology.
-
-**User requirement** vs **system requirement**:
-- A user requirement says "Users should be able to…". It is a minimal user story without the value part.
-- A system requirement says "The system shall…". All system requirements together are enough to build the system.
-- **Example:** "As a student I want to search books by title, author or ISBN so I can quickly find books" becomes:
-  - The system shall provide search by title, author or ISBN.
-  - Fuzzy match within 10% of the characters.
-  - Results show title, author, ISBN and availability.
-  - Filters for genre, date and rating.
-  - Pagination.
-  - Results in ≤2 s for 100,000 books.
-  - 500 concurrent searches without degradation.
-
-**Functional** (what it must do) vs **non-functional** (qualities: usability, UX, performance, maintainability, security, cultural acceptability, legal). Do not specify *how* yet; that belongs in design.
-
-**MoSCoW prioritisation:**
-- **Must:** defines the MVP.
-- **Should:** if time permits.
-- **Could:** lesser importance.
-- **Won't:** next development cycle.
-
-**SMART requirements:** Specific, Measurable, Achievable, Relevant, Time-bounded.
-- Bad: "The app shall notify users when an alert is entered."
-- Better: "…notify first responders in range within 3 s after an operator enters an alert." Even then, "range" still needs a definition.
-- "User friendly" is not verifiable. Replace it with measurable criteria, for example: <500 ms response on any interactive component; alert data stored locally; 100% of UI components follow a central style guide and platform HIG.
-
-**AI in requirements (with human oversight):**
-- **Elicitation:**
-  - Synthetic user simulation: an LLM role-plays a persona for mock interviews, to refine questions *before* real participants.
-  - Mass extraction of pain points from reviews, tickets and transcripts.
-  - Rapid drafting of PACT scenarios, user stories and acceptance criteria.
-- **Analysis:**
-  - Ambiguity and conflict detection ("fast", "user-friendly").
-  - Edge cases.
-  - Gaps against WCAG, security and privacy (missing NFRs such as privacy constraints or offline fallback).
-
-### Information Architecture (IA)
-- **Definition:** how content is classified and organized. "Information architects organize content and design navigation systems to help users find the information they need." Organizing works at the macro level (areas) and micro level (pages, fields). Navigation covers moving around, search, indexes and site maps.
-- **IA model:** the intersection of **Content** (types, volume, structure), **Context** (business goals, funding, politics, culture, technology, constraints) and **Users** (audience, tasks, needs, information-seeking behaviour, experience).
-- **Why IA matters:** not finding information is a major complaint. Needs vary (known item, exploratory, comprehensive), preferences vary (search vs browse) and expertise varies.
-- **Deliverables:** blueprints, page templates, navigation systems, labelling systems and controlled vocabularies, policies, production work, training.
-
-**Organization structures:**
-1. **Hierarchy:** top-down and familiar. Mobile forms: hub-and-spoke, tabbed view, nested doll.
-2. **Database:** bottom-up, homogeneous content, metadata and tags.
-3. **Linear:** chronological or process steps. Not scalable; suited to transactional tasks.
-4. **Hypertext / contextual:** links; needs an organized structure underneath.
-5. **Hybrid:** combinations of the above.
-
-**Organization schemes:**
-- **Exact:** alphabetical, geographical, chronological. One right answer; best for users who know what they want.
-- **Inexact:** topic, task, audience. Messy, but best for exploratory users.
-- **Hybrid:** use with caution. It can break the user's mental model. Keep clear divisions between schemes.
-
-**IA on mobile:** same principles, but fewer categories, less content per page, less navigation space, touch input, changing contexts and more distractions.
-
-**Labelling:**
-- A label represents a content chunk; for example, "Contact us" stands for phone, email and address.
-- Labels must be specific, clear, predictable and consistent.
-- Sources for labels: card sorting, physical analogues (shops, libraries), search logs, competitors.
-- Bad reasons for choosing a label: button space, designer boredom.
-- Evaluate labels with experts, focus groups, query analysis and user tests.
-
-**Card sorting:**
-- **Open:** users group cards and name the groups.
-- **Closed:** categories are given in advance.
-- **Check:** do labels match? Is the number of categories reasonable? Are categories of reasonable size, each with several members? Does any need subcategories? The result is a taxonomy.
-
-**Navigation systems:**
-- **Global:** site-wide, on every page. Top bar, bottom footer, tab bar, bottom menu, side menu (Facebook), tabbed (LinkedIn), hub-and-spoke (Amazon).
-- **Local:** sidebar, cascading, fly-out or drop-down menus.
-- **Contextual:** inline and associative links.
-- **Supplemental:**
-  - The site map reflects the mental model and reassures completeness.
-  - The site index flattens the structure for known-item search.
-  - Others: guided tour, search, pagination, breadcrumbs.
-- **Explicit architecture** is made visible through labels, but explicitness does not guarantee clarity.
-- Follow platform **UI design patterns** (web, Android, iOS conventions). These are not programmers' design patterns.
-
----
-
-## 3. User experience, design principles & psychology (Lecture 3)
-
-UX covers all the feelings, thoughts, sensations and actions of engaging in an activity. **Design principles** guide both design and evaluation.
-
-### Nielsen's 10 usability heuristics (1994) — primary checklist
-1. **Visibility of system status:** timely, accurate feedback for every action; progress indicators.
-2. **Match between system and real world:** the user's language, real-world metaphors and conventions, no jargon.
-3. **User control & freedom:** undo/redo, clearly marked "emergency exits", cancel.
-4. **Consistency & standards:** the same thing always looks and works the same; follow platform conventions.
-5. **Error prevention:** "better than a good error message is a design that prevents the problem."
-6. **Recognition rather than recall:** visible objects, actions and options; pick from lists; minimise memory load.
-7. **Flexibility & efficiency of use:** accelerators and shortcuts for experts, tailoring, keyboard support.
-8. **Aesthetic & minimalist design:** no irrelevant information; every extra item competes for attention.
-9. **Help users recognize, diagnose & recover from errors:** plain language, a precise description of the problem, a constructive solution.
-10. **Help & documentation:** searchable, task-focused (context sensitive), concrete steps, brief.
-
-**Benyon's 12 principles:** Visibility, Consistency, Familiarity, Affordance, Navigation, Control, Feedback, Recovery, Constraints, Flexibility, Style, Conviviality. They are close to Nielsen's list.
-
-### Laws of UX / psychology
-- **Fitts's law:**
-  - Time to reach a target depends on its distance and size.
-  - Make targets large and well spaced, and place them in easy-to-reach areas.
-- **Hick's law:**
-  - Decision time grows with the number and complexity of choices (choice overload).
-  - Minimise choices when speed matters; split complex tasks into steps.
-  - Highlight recommended options; use progressive onboarding.
-  - Don't oversimplify to the point of abstraction.
-- **Occam's razor:**
-  - The best way to reduce complexity is to avoid it.
-  - Remove elements until nothing more can be removed without losing function.
-- **Tesler's law (conservation of complexity):**
-  - Some complexity cannot be removed; either the system or the user must carry it.
-  - Move it into the system.
-  - Don't design for an idealized rational user.
-  - Offer contextual guidance, such as tooltips.
-- **Working memory:**
-  - Holds about 4–7 chunks (Miller's law); each fades after 20–30 s.
-  - **Serial position effect:** people remember first and last items best.
-  - **Peak-end rule:** experiences are judged by their peak and their end, so end interactions positively.
-  - Support recognition: mark visited links, use breadcrumbs.
-  - Put the memory burden on the system: carry information across screens, use comparison tables.
-- **Gestalt laws:**
-  - Proximity, similarity, common region or boundary, shared background all create grouping.
-  - Grouped elements are perceived as related.
-- **Aesthetic-usability effect:**
-  - Pretty designs are perceived as more usable and minor issues are tolerated.
-  - Aesthetics can mask usability problems in tests.
-
-### Evaluating usability (overview)
-- **Questionnaires:** SUS, UEQ, PSSUQ, domain-specific ones, NASA-TLX (workload).
-- **Behavioural measures:** eye tracking, mouse tracking, performance, error rate, duration.
-- **Qualitative methods:** think-aloud, expert evaluation (heuristic evaluation, cognitive walkthrough).
-
-**System Usability Scale (SUS):** 10 items, 5-point Likert scale, a "quick and dirty" usability measure.
-1. I think that I would like to use this system frequently.
-2. I found the system unnecessarily complex.
-3. I thought the system was easy to use.
-4. I think that I would need the support of a technical person to be able to use this system.
-5. I found the various functions in this system were well integrated.
-6. I thought there was too much inconsistency in this system.
-7. I would imagine that most people would learn to use this system very quickly.
-8. I found the system very cumbersome to use.
-9. I felt very confident using the system.
-10. I needed to learn a lot of things before I could get going with this system.
-
-**SUS scoring:**
-- Odd items: response − 1.
-- Even items: 5 − response.
-- Sum the ten values (0–40) and multiply by 2.5 to get a 0–100 score.
-- Interpret against percentile ranks (measuringu.com/interpret-sus-score).
-- The most useful use of SUS is **comparing versions** of a system.
-
----
-
-## 4. Ethics & accessibility (Lecture 4 + RPT + Lab 3)
-
-### Human research ethics
-- **Why it matters:** HCI involves stakeholders throughout and relies on people to design and evaluate.
-- **History:**
-  - Nazi experiments led to the Nuremberg Code (1947) and the Declaration of Helsinki (1964).
-  - Tuskegee syphilis study (1932–72).
-  - Milgram experiment (1961) and Stanford Prison Experiment (1971): non-medical harm.
-- **Declaration of Helsinki core principles:**
-  - Self-determination and informed decisions.
-  - Recognise vulnerable groups.
-  - **Participant welfare over the interests of science and society.**
-  - Research grounded in the scientific background, with likely benefit, and public study information.
-  - Trained investigators.
-  - Independent ethics review; ethics take precedence over law; ethics extend to publication.
-- **TU Delft process:** assess risk → mitigate risk → prepare informed consent → data management plan → feedback from data stewards → submit to the Human Research Ethics Committee (HREC).
-- **Informed consent (IC):**
-  - IC is an agreement on what participants will do and what you will do, legally and ethically, to protect their physical, emotional and reputational security.
-  - Include: the purpose, the tasks, the risks (including identification risk) and the mitigations.
-  - Make it **granular**: separate opt-ins with tick boxes.
-  - You don't need to reveal the exact research question, since that can bias results.
-  - Always include the **right to withdraw at any time without penalty**, the data collected, and how privacy and anonymity are protected.
-- **Hidden-camera example ("Jane"):** filming students covertly is a problem even with stick-figure anonymisation. Issues: no consent, a dependent relationship (her own students), video identifiability, and the commercial camera's data handling.
-
-### TU Delft Risk-Planning Tool (RPT)
-Three steps: **Minimise risks** (plan a risk session, role-play stakeholders) → **Communicate risks** (align IC with the Data Management Plan, make risks and mitigations clear in the IC) → **Manage risks** (execute the IC as a contract).
-
-**Risk factors:**
-- **Partners & collaboration:** funders, internships, third-party data.
-- **Location:** outside the EU, non-democratic regimes, what counts as compensation.
-- **Participants:** ability to consent, vulnerability (children, nursing homes), dependency (own students, employees), re-identification.
-- **Recruitment:** gatekeepers, specialist or self-help groups, crowdsourcing platforms, payment bias.
-- **Subject matter:** medical, drugs or substances, samples, psychological stress, sensitive personal data, confidential information, conflict, illegal activity.
-- **Research methods:** observation without knowledge, deception, pain or accidents, non-CE devices, face-to-face health concerns, AI or biased datasets, data merging.
-- **Data & privacy:** PII (name, email), indirect identifiers (video, audio, IP, age, gender), internet or social-media data, publication, archiving, DPIA.
-
-**Mitigation questions:**
-- Can I collect less PII?
-- Can I use a less vulnerable group?
-- Are there unnecessary risks in the design?
-- Do participants fully understand?
-- What is legal vs what is ethical?
-- What if there is a data breach, or a researcher leaves?
-- What are the long-term effects on participants and their communities?
-
-**Lab 3 AI privacy item:** an LLM feature (such as a personalised route) may leak live location or disability status to a third-party LLM provider. Write a 2-sentence privacy disclosure on anonymisation before calling the AI API.
-
-### Accessibility — five types of exclusion
-1. **Physical:** an ATM too high for a wheelchair.
-2. **Conceptual:** instructions that are too difficult.
-3. **Economic:** an app that only runs on the latest phone.
-4. **Cultural:** a cricket metaphor.
-5. **Social:** a service available only during working hours.
-
-### Seven Principles of Universal Design (Center for Universal Design, NC State 1997)
-1. **Equitable use:**
-   - The same means of use for all (identical when possible, equivalent when not).
-   - No segregation or stigma; equal privacy, security and safety; appealing to all.
-2. **Flexibility in use:**
-   - Choice of method; left- or right-handed use.
-   - Supports accuracy; adapts to the user's pace.
-3. **Simple & intuitive use:**
-   - No unnecessary complexity; consistent with expectations.
-   - Works across literacy and language levels.
-   - Information ordered by importance; prompting and feedback.
-4. **Perceptible information:**
-   - Redundant modes (pictorial, verbal, tactile).
-   - Contrast and legibility.
-   - Elements that can be described in words.
-   - Compatible with assistive technology.
-   - **Not the same as Nielsen's "visibility".**
-5. **Tolerance for error:**
-   - Arrange elements to minimise hazards; isolate or shield hazardous ones.
-   - Warnings, fail-safes; discourage unconscious actions in vigilance tasks.
-6. **Low physical effort:**
-   - Neutral body position, reasonable force.
-   - Minimal repetitive actions and sustained effort.
-7. **Size & space for approach and use:**
-   - Line of sight and reach for seated or standing users.
-   - Accommodates hand and grip variation.
-   - Room for assistive devices and helpers.
-
-Examples:
-- An accessible PDF (reading order, alt text) applies Perceptible information and Equitable use.
-- A household-robot scheduling tablet can apply Perceptible information through icons, text and audio together, high contrast, and screen-reader support.
-
-**Inclusivity analysis exercise:** pair user groups (colour blind, low literacy, hard of hearing, non-Dutch speaker, under 10) with artefacts (drinks menu, street sign, ATM, medicine leaflet, museum video tour) and identify the barriers.
-
-### Universal Design cheat sheet — 7 questions per screen (WCAG 2.2 AA numbers)
-
-| Principle | Question | Rule |
-|---|---|---|
-| Equitable use | Can everyone use the same screen? | Nothing works only on hover or only with a mouse |
-| Perceptible info | Can someone with low vision read it? | **Text ≥ 4.5:1** contrast; **large text, outlines, icons ≥ 3:1**; colour is never the only signal |
-| Flexibility | Can people use it their own way? | Mouse, finger or keyboard; every main button has a **clearly visible focus state** |
-| Size & space | Can someone with shaky hands hit every button? | **Targets ≥ 44×44** with spacing; pad small icons with an Auto Layout frame |
-| Simple & intuitive | Would someone new to apps know where to tap? | **One clear main action per screen**; labels say what happens ("Subscribe", not "Click here") |
-| Low physical effort | How many steps does the main task take? | Count the clicks in Present mode; drop unneeded steps; don't rely on precise dragging |
-| Tolerance for error | What happens if someone taps the wrong thing? | Always a way back: Back, Close, click outside a pop-up |
-
-(The lecture prompt for the AI kiosk used **min 48px touch targets**. Use ≥44, and prefer 48 on a kiosk.)
-
----
-
-## 5. Envisionment, design & prototyping (Lectures 5–6)
-
-**Prototyping choices:**
-- Fidelity: low, mid or high.
-- Scope: **horizontal** (broad, shallow), **vertical** (one feature in depth) or **scenario**-based.
-- Lifecycle: **throwaway** (only to get user reactions; must be fast), **incremental** (modules prototyped then added), **evolutionary** (the prototype gradually becomes the product).
-- Medium: paper, Figma, Wizard of Oz, code.
-
-**Fidelity:**
-- **Lo-fi:** paper or greyscale wireframes. Easy to change and disposable; users focus on structure and function.
-- **Mid-fi:** schematic, simulated functionality (screen mockups), materials may differ from the final product.
-- **Hi-fi:** detailed, real (partial) functionality and final materials.
-- **Hi-fi risks:** users think it's real, users fixate on details (font size), developers get attached. **Get lo-fi right before investing in hi-fi.**
-
-**Prototyping over the lifecycle (early → late):**
-1. Brainstorm representations.
-2. Lo-fi paper prototypes and task-centred walkthroughs.
-3. Fine-tune the interface with heuristic evaluation.
-4. Mid-fi prototypes with usability testing and limited field tests.
-5. Hi-fi prototypes and alpha/beta tests.
-6. Working system.
-
-Interactive paper prototypes can simulate sliders, toggles and screen changes (Snyder 2003). Modern prototyping also includes electronics, 3D printing, conductive ink and tangible or textile prototypes.
-
-**Guidelines for large projects:**
-1. Test core concepts at lo-fi, but **increase fidelity**; don't stop at lo-fi.
-2. Make prototypes in-house with maker and DIY tools.
-3. Use video or media to show functions that can't be prototyped.
-4. Use real-world data where possible.
-
-**What prototypes prototype (Houde & Hill 1997):**
-- **Role:** function in the user's life; needs the context of use.
-- **Look & feel:** sensory experience; needs a simulated experience.
-- **Implementation:** the nuts and bolts; usually needs a working system.
-- No dimension is more important than another.
-
-**Prototypes as filters and manifestations (Lim, Stolterman & Tenenberg 2008):**
-- *Manifestation* makes an abstract idea concrete.
-- *Filter* deliberately leaves things out to focus on one question; for example, test the navigation hierarchy and ignore branding.
-
-**Choosing fidelity, scope and medium: kiosk scenarios from class**
-
-| Question | Sensible choice |
+| Feature | MoSCoW (proposed; team confirms in `docs/requirements.md`) |
 |---|---|
-| Will elderly tourists understand that tapping the physical screen map filters medical stations? | Lo/mid-fi, vertical, paper or Figma on a real-size touch screen |
-| Is a 300 ms transition between search and venue details jarring on mobile? | Hi-fi look & feel, vertical, code or Figma Smart Animate on a real device |
-| How will international tourists react to an AI agent that proactively interrupts with weather warnings? | Role-focused, Wizard of Oz, mid-fi, in context |
+| Ingredient-based matching **with quantities** | Must |
+| Green / yellow / red lists | Must |
+| Hard filters: allergies, diet (vegan, vegetarian, halal, pescatarian), equipment (stove, oven, microwave, air fryer, blender, kettle) | Must |
+| Budget-aware results: cost to complete on every recipe | Must |
+| Cheapest completion from Albert Heijn / Jumbo offers | Must |
+| Shopping list grouped by store, with running total | Must |
+| Similar recipes via k-NN | Must (this is the "AI-driven" core) |
+| Nutritional values per recipe | Should |
+| Dark theme: light / dark / follow system | Should |
+| Adjustable text size for cooking steps | Should |
+| Recipe export as PDF | Should |
+| Accessible design (WCAG 2.2 AA) | Must (non-functional) |
+| Cook mode: one step at a time, large text, screen stays awake | Could |
+| LLM layer: plain-language explanation or re-ranking of top results | Could (see section 9.6) |
 
-### Prototyping with AI
-- **What AI is good for:**
-  - (1) Ideation and synthetic data: personas, scenarios, realistic copy (e.g. authentic Dutch POI descriptions in English or German instead of lorem ipsum).
-  - (2) Structure and layout: text-to-Figma, wireframe plugins, user stories turned into Auto Layout frames.
-  - (3) Code scaffolding: prompt-to-code (v0.dev, Cursor, IDE copilots) producing React/Tailwind components.
-- **Domain knowledge makes prompts much better.**
-  - Weak: "Make a tourist kiosk UI."
-  - Strong (HAIP-informed): "Create a responsive Next.js component using Tailwind CSS for a public standing kiosk in Delft. Target audience: elderly international tourists. Requirements: high-contrast buttons, minimum 48px touch targets, side-by-side split layout with a POI map on the left and accessible category cards on the right. Greyscale theme only."
-- **Risks:**
-  1. **Fidelity trap and psychological lock-in:** a polished output triggers sunk-cost fallacy and cognitive inertia, so teams stop critiquing a flawed architecture.
-  2. **Illusion of completeness:** beautiful UI that lacks navigation paths, edge-case states and error handling.
-  3. **Accessibility debt:** non-semantic HTML (`div` + `onClick` instead of `button`), broken screen readers, failed WCAG contrast.
-  4. **Algorithmic uniformity (convergence to the mean):** cookie-cutter UIs that ignore local context (e-commerce patterns on a rainy outdoor kiosk).
+### 1.4 Screens (designed in light and dark)
 
-**When to use AI:**
+| # | Screen | Route | Purpose |
+|---|---|---|---|
+| 01 | Allergies | `/onboarding/allergies` | Onboarding step 1 of 3: allergies and intolerances |
+| 02 | Diet | `/onboarding/diet` | Onboarding step 2 of 3: dietary preference |
+| 03 | Kitchen | `/onboarding/kitchen` | Onboarding step 3 of 3: available equipment |
+| 04 | My fridge | `/fridge` | Ingredients you have, with quantities |
+| 05 | Add ingredients | `/fridge/add` | Search and add ingredients |
+| 06 | Recipe results | `/recipes` | Green / yellow / red lists |
+| 07 | Recipe detail | `/recipes/[id]` | Have vs. missing, cost to complete, nutrition, similar recipes, export PDF |
+| 08 | Shopping list | `/shopping-list` | Missing ingredients grouped by store, total |
+| 09 | Settings | `/settings` | Appearance, text size, food preferences |
+| 10 | Filters | bottom sheet on `/recipes` | Allergies, diet, equipment, maximum cost |
 
-| Task | Approach | Why |
+**Global navigation:** a bottom tab bar with four tabs, **Fridge · Recipes · Shopping list · Settings**. The tab bar is hidden during onboarding.
+
+**Existing team designs win.** If the team has designs (Figma, images in `design/`, or the first prototype `site/index.html`), read them before building a screen and keep their decisions. Two exceptions: (a) accessibility rules in section 12 override any design, and you point out the conflict; (b) where designs are silent, section 11 decides.
+
+### 1.5 Why this target group, and the team
+We chose budget-conscious students because we can easily reach them on campus for interviews and prototype testing.
+
+We are six Romanian students from different cities, with different backgrounds, interests and budgets, and one team member has ADHD. These differences help us question assumptions about who uses the system and what they can afford or manage. Design consequence: low cognitive load, clear single next steps, no time pressure, progress that saves itself (section 12.3).
+
+---
+
+## 2. Course facts that drive priorities
+
+### 2.1 Team (put names and student numbers on every submitted deck)
+
+| Name | Student number |
+|---|---|
+| Donciu Arin | 6749437 |
+| Dunel Octavian | 6685447 |
+| Filip Eduard Gabriel | 6681557 |
+| Mihai Daniel | 6669018 |
+| Moldovan Mihai | 6645909 |
+| Oprescu Octavian | 6686346 |
+
+Repository: `https://github.com/Octa28/Cooly`
+
+### 2.2 Deliverables and dates
+
+| When | What | Notes |
 |---|---|---|
-| Early mental-model ideation | **Manual** (paper / lo-fi Figma) | Prevents premature lock-in; fast and flexible |
-| IA / card sorting | **Hybrid:** humans sort, AI benchmarks | Humans set user intent; AI stress-tests edge cases and missing categories |
-| UI layout & scaffolding | **AI-accelerated** (v0, plugins) | Removes boilerplate HTML/Tailwind |
-| Accessibility & usability tuning | **Human oversight and audit** | AI routinely generates inaccessible code; humans enforce WCAG |
-| Micro-interactions & state logic | **Hybrid:** AI code plus manual refactoring | AI drafts `useState` logic; humans tune timing and integrate user feedback |
+| Done (before 14 Nov) | **D1** project outline | Domain, target group, goal, platform, diversity paragraph |
+| Week 2.3 (23–27 Nov) | Lecture 5 Envisionment, Lecture 6 Prototyping with/without AI, **Lab 3** accessibility + interactive prototypes | |
+| Week 2.4 (30 Nov–4 Dec) | Lecture 7 Expert evaluation, Lecture 8 User evaluation, **Lab 4** rapid prototyping + peer evaluations | Good moment for a heuristic evaluation by another group |
+| **Wed 9 Dec, 23:59** | **D2** mid-term slide deck on Brightspace | **Cannot be changed after submission**; the same deck is presented |
+| **Thu 10 / Fri 11 Dec** | Mid-term presentations (slots 08:45–17:45) | **All six must attend.** An unexcused absence fails that student's project component |
+| Week 2.6 (14–18 Dec) | Lecture 9 Design-to-code & AI code generation, Lecture 10 Web tech & HTTP, REST recordings, **Lab 5** user evaluation & focus groups | Run user tests |
+| Week 2.7 (4–8 Jan) | Lecture 11 Making UIs interactive (React & Next.js recording), Lecture 12 Hi-fi prototypes & deployment, **Lab 6** qualitative analysis | Analyse test data, iterate |
+| Week 2.8 (11–15 Jan) | Lecture 13 Data visualisation, Lecture 14 Conversational interfaces, **Lab 7** deploying hi-fi prototypes | Final polish, live URL stable |
+| **Wed 20 Jan 2027, 23:59** | **D3** final slide deck | Must show a **working interactive prototype with a live URL**, evaluation results and the **AI Use** section |
+| **Mon 25 Jan 2027, 09:00–12:00** | Exam (100% of grade) | Questions can cover **the group project** |
 
-**Takeaways:** don't skip lo-fi ideation. Use AI to accelerate thinking, not to replace it. You are accountable for every line of code, contrast ratio and flow. Document your AI iterations.
+Budget of effort: about 75 hours per student (6 h/week). Prefer finished and tested over large and half-working.
 
----
+### 2.3 What gets graded (pass/fail, need ≥ 5 of 6 dimensions)
 
-## 6. Lab procedures (reusable recipes)
+| # | Dimension | Pass needs | What you do about it |
+|---|---|---|---|
+| 1 | Scope & team | Approved scope, diversity paragraph, NetIDs (D1) | Done. Never drift outside the approved domain, target group, goal or platform |
+| 2 | Requirements & adaptive design | Clear functional and non-functional requirements, **PACT analysis**, **information architecture**, system adapts to user/accessibility constraints (D2) | Keep `docs/requirements.md`, `docs/pact.md` and `docs/ia.md` current; trace features to requirement IDs |
+| 3 | Hi-fi web prototype | Functional and interactive (Next.js / React / Tailwind), key flows work, **live URL works** (D3) | Keep `main` deployable at all times; core flows before extras |
+| 4 | AI integration & critical reflection | "AI Use" section: tools, **prompts**, **manual edits**; critical evaluation of AI with limitations; human-in-the-loop (D3) | AI log (section 14.1) and limitations log (section 14.2), written automatically |
+| 5 | Evaluation & responsible design | Real user evaluations, results turned into design revisions, ethics (consent, privacy, accessibility); no severe WCAG failures (D2 & D3) | Evaluation kit (section 15), consent templates, a11y checks on every PR |
+| 6 | Presentation & deliverables | Required deck structure, everyone presents, technical and UX decisions communicated clearly | Deck outlines (section 16), decisions log, short explanations |
 
-### Lab 2 — IA & wireframing
-- **Low-fi rules:** greyscale shapes only; rectangles for images, grey blocks for buttons; placeholders like `[ POI Name ]`, `[ Distance ]`; no fonts, icons or images. *Structural scaffolding, not visual polish.*
-- **Activity 1, card sorting (~20 min):**
-  - Pick 15 POIs (food, historic sites, logistics, transit, events).
-  - Open-sort them into **4–6 labelled categories** (e.g. *Navigating Delft*, *Quick Eats*, *Historic Sights*).
-  - Check size, specificity and fit with persona mental models.
-  - Ask an LLM: *"Act as an HCI Information Architect. Cluster these 15 Delft POIs [list] into 4-6 main navigation menu labels for a [platform] aimed at [persona]. Explain your classification logic."*
-  - Compare: did the AI sort by **destination type (spatial)** or **user intent (functional)**? Where does it conflict with human intuition? Finalise the categories.
-- **Activity 2, wireframes (~30 min):**
-  - Two Figma frames (Mobile 390×844 or Desktop 1440×900) for one key scenario (e.g. "finding a budget meal near the Markt on a rainy afternoon").
-  - **Variant A:** category-first (tabs or hamburger → list).
-  - **Variant B:** search & map-first (search bar → map pins → card overlay).
-- **Activity 3, critique (~15 min):**
-  - Audit against PACT constraints. Is the primary action ("Filter by Price", "Get Directions") visible **within 3 seconds**? Does the user always know where they are in the hierarchy?
-  - LLM review prompt: *"Act as a UX Evaluator. Review this low-fidelity wireframe layout for a tourist kiosk app against Nielsen's 'Consistency and Standards' and 'Recognition rather than Recall'. Identify 2 potential usability flaws in the navigation structure."*
-  - Refine the chosen variant.
-- **Activity 4:** 1-minute pitch covering the final categories, the chosen layout and why it beat the other, and one UX improvement made after the critique.
-
-### Lab 3 — accessibility & interactive prototypes
-- **Figma tutorial topics:**
-  - Auto Layout: buttons that resize with their text; nested Auto Layout cards.
-  - Components & Variants: default, hover, pressed.
-  - Prototype connections and transitions.
-  - Overlays: modals and menus.
-  - Contrast audit.
-- **Activity 1:**
-  - Build at least one primary flow interactive (e.g. Search POI near the Markt → filter "Wheelchair accessible" → POI detail → Get Directions).
-  - Primary buttons need **hover and accessible focus states** (high-contrast outline).
-  - Audit against UD with the personas (low-vision elderly, wheelchair user, umbrella or luggage, low digital literacy).
-  - Run a contrast check; **fix at least 2 accessibility flaws**.
-- **Activity 2:**
-  - Write a protocol and consent form for a 15-min test with tourists near Delft station or the Markt.
-  - Go through the RPT questions and give a mitigation for each "yes".
-  - The consent form covers: (i) data collected (screen recordings, time to find a POI), (ii) privacy and anonymity, (iii) withdrawal at any time without penalty.
-  - Write the AI privacy disclosure.
-- **Activity 3:**
-  - Prompt: *"Act as a Research Ethics and Accessibility Board Officer… Review this consent form draft and interface description. Identify missing safety disclosures, privacy risks, or WCAG oversights."*
-  - Then critique the AI: did it find a real gap? Did it add legalistic jargon that would confuse participants?
-- **Deliverables:** the Figma prototype link, updated frames, a consent form, and the 2-sentence AI privacy disclosure.
+**Exam link:** the exam can ask about the project. After every non-trivial change, give a short "how this works" explanation the teammate could repeat, and keep `docs/architecture.md` readable for a first-year student (LO5: client/server, HTTP, REST).
 
 ---
 
-## 7. Evaluation — research questions & expert evaluation (Lecture 5)
+## 3. Course AI policy (binding)
 
-Evaluation is any test of how well something performs. If the system involves people, so does its evaluation. It runs through the whole process, not only at the end.
+The syllabus encourages AI for ideation, UI scaffolding, code generation and mock data, with these conditions:
 
-**Six types of research question (Andriessen 2011):**
-- **Descriptive:** properties, steps, who is involved.
-- **Comparative:** similarities and differences.
-- **Evaluative:** value, quality, pros and cons, suitability.
-- **Defining:** classify or characterise.
-- **Explaining:** causes, reasons.
-- **Designing:** how to improve or remedy, appropriate measures.
+- **Transparency:** the final deck must include an **AI Use** section: tools used, core prompts (especially for complex UI or logic), and **how the team modified the output**. This is why the AI log exists.
+- **Code vs. academic writing:**
+  - Using and adapting AI-generated **code, components and placeholder text** is expected.
+  - **Critical analysis, heuristic evaluations, UX justifications and academic reflections must be the team's own thinking.** Submitting raw, unedited AI text there is prohibited.
+  - Unattributed AI text in analytical sections can fail the project.
+- **Human in the loop:** the team is accountable for every committed line. "Claude said so" is never an excuse. So you must make review easy (section 5.3), and never merge into `main` yourself.
+- **Verification:** you hallucinate APIs, produce inaccessible patterns and write inefficient state. Check your own work (section 18) and record real failures in the limitations log.
+- **Attribution:** mention every third-party library, service, dataset, font, icon set and image. Keep `docs/third-party.md` updated (section 14.3).
+- **When in doubt:** if a use of AI might cross from assistance into plagiarism, tell the team to ask the TAs (Answers EWI with tag `#CSE12B`, or Mattermost).
 
-**Qualitative vs quantitative:**
-- **Qualitative:** focuses on experience (why? how?). Language data, open questions, thematic analysis, small samples. Formative, mid-process.
-- **Quantitative:** focuses on data (what, when, who, where). Numbers, closed questions, statistics, large samples. Summative, end of process.
-
-**A good research question is:** focused (single issue), researchable, feasible, specific, complex enough, relevant and original.
-- Bad: "How usable and inclusive are the website and the app?"
-- Good: "How usable is the mobile app?"
-- Good: "Would CS students rate GUI A or B higher on usability?"
-- Good: "What is the effect of adding a loading screen on app usability?"
-
-**Expert evaluation:**
-- Experts can be usability experts or domain experts about the end users (e.g. teachers for a kids' app, therapists for PTSD content).
-- **Advantages:** cheap, quick. Good when a minimally good system is needed first, when users are vulnerable, or when confounding factors exist.
-- **Disadvantages:** simulated, not the real user group.
-
-**Cognitive walkthrough:**
-- **Inputs:** (1) task description, (2) the correct action sequence, (3) anticipated users, (4) users' initial goals.
-- **For every step, ask:**
-  1. Will users try to achieve the right effect?
-  2. Will they notice that the correct action is available?
-  3. Will they associate the action with the effect?
-  4. Will they see progress toward the goal after the action?
-- Class example: first Rabobank login with a card reader, 11 actions.
-
-**Heuristic evaluation (Nielsen 1993/94):**
-- **How it works:**
-  - Evaluators inspect the interface **independently** against the heuristics. Only afterwards do they communicate and aggregate.
-  - Each session lasts 1–2 h; split large interfaces into several sessions.
-  - Go through the interface **at least twice**: first for flow, then for specific elements.
-  - Works on paper prototypes.
-  - For domain-specific systems, give naive evaluators a usage scenario based on task analysis. An observer may answer domain questions, but should help with the interface only once the evaluator is clearly stuck and has commented on the problem.
-- **Output:** a list of usability problems, each **listed separately** with the heuristic it violates and *why*. "I don't like it" is not enough.
-- **Number of evaluators:** 3–5 (≈75% of problems with 5), or stop at saturation. One evaluator finds only a fraction.
-- **Severity matrix:** severity = **Impact × Frequency**, from low (1) to high (5). Add **cost** when prioritising fixes.
-- **Debriefing session:** evaluators, observers and designers brainstorm redesigns and also note positive aspects.
-- **Discount usability engineering:** quick and dirty, and very cost-effective (benefit-cost ratio of 48 in one case study), but not exhaustive.
-- **Caveats:** the designer is not the best expert. Use concrete examples and personas. Validity is limited.
+**How you handle analytical text:**
+- **Asked for an evaluation, justification or reflection:** provide (1) the evidence (what was built, what tests showed, log entries, metrics), (2) a suggested structure, and (3) the questions the team should answer. Do not write finished prose.
+- **Explicitly asked for a draft anyway:** write it, start it with `<!-- AI DRAFT: rewrite in your own words before submitting -->`, and log it as such.
+- **Never invent findings, participants, quotes or numbers.**
 
 ---
 
-## 8. User evaluation & controlled experiments (Lecture 6)
+## 4. How you work with the team
 
-**When to evaluate, and how:**
+### 4.1 Default behaviour
+- **Act; don't wait to be told.** A vague request gets the reading that best fits this file. State that reading in one line and proceed.
+- **Ask first only when:** changing the database schema, shared components in `components/ui/`, design tokens, routes, or another teammate's area; deleting files; adding a heavy dependency; anything that changes the product scope; anything irreversible.
+- **Lo-fi before hi-fi** (course rule: "get lo-fi right before investing in hi-fi"). For a screen with no agreed design or flow, first propose a quick **text wireframe**: the screen's sections top to bottom, the one primary action, empty / loading / error states. Get a yes, then build.
+- **Plan first for anything non-trivial:** the files you'll touch, the approach, the requirement IDs covered, the risks. Then build.
+- **Finish what you start:** code, states, accessibility, light and dark, the 390 px check, the docs updates and the log entry.
 
+### 4.2 Teaching while building
+The team wants to learn. At the end of each task, add a short block (3–6 lines, in the teammate's language):
+- **What changed:** files and behaviour.
+- **How to check it:** exact steps on a phone or at 390 px.
+- **Worth knowing:** one concept (a Git command you ran and why, a React pattern, an HCI principle you applied).
+
+Before running a Git command that changes history or branches, say in one line what it does.
+
+### 4.3 Who is talking to you
+Run `git config user.name` at session start to know which teammate you work with (for the AI log). If it's empty, ask for their name once and suggest `git config --global user.name "First Last"`.
+
+---
+
+## 5. Session protocol
+
+### 5.1 Start of session
+1. Read this file.
+2. `git status` and `git branch --show-current`.
+   - **On `main`:** `git pull`, then create a branch for the task (section 6).
+   - **On a feature branch:** `git fetch` and check whether `main` moved; offer to merge `main` in if it did.
+   - **Uncommitted changes you didn't make:** ask before touching them.
+3. Skim `docs/requirements.md` and the timeline in section 2.2, so you know what matters this week.
+
+### 5.2 During the task
+- Build in small, working increments and commit after each one that works.
+- Keep the dev server running and check at 390 × 844, in **both** themes.
+- Every adaptive or data-driven view needs empty, loading and error states (avoid the "illusion of completeness").
+
+### 5.3 End of task: definition of done
+Run through section 18. Then:
+1. Run `npm run lint`, `npm run typecheck`, `npm test` and `npm run build`. Fix failures; don't hide them.
+2. Update the docs that changed: AI log (always), third-party, decisions, requirements status, architecture.
+3. Commit with a clear message (section 6.3). Ask before the first push of a new branch in a session.
+4. Write a PR description using the template in section 6.4, including a **"What the reviewer should check"** list. This is the team's human-in-the-loop step.
+5. Suggest the next most valuable task from the timeline.
+
+---
+
+## 6. Git & GitHub rules
+
+### 6.1 Branches
+- **`main` is protected and always deployable.** Never commit or push to it directly. Never merge PRs into it; a teammate merges after reviewing.
+- One branch per task: `feature/<short-name>`, `fix/<short-name>`, `docs/<short-name>`, `data/<short-name>`.
+- Keep branches short-lived (about 1–3 days). Merge `main` into your branch often (`git merge main`). **Don't rebase shared branches.**
+
+### 6.2 Never
+`git push --force`, `git reset --hard` on shared work, deleting branches you didn't create, committing `.env*` files (except `.env.example`), committing `node_modules`, `.next` or large binaries, or rewriting someone else's commits.
+
+### 6.3 Commit messages
+English, imperative, short subject, with an optional body explaining why. Examples:
+- `Add quantity-aware matching for fridge items`
+- `Fix contrast of yellow status label in dark theme`
+- `Log AI prompts for shopping list screen`
+
+### 6.4 Pull request template
+
+```markdown
+## What
+<1–3 lines>
+
+## Why
+Requirement(s): FR-xx, NFR-xx · Principle(s) applied: <e.g. Nielsen #1, UD 4>
+
+## Screens
+<before/after notes; tested at 390×844, light + dark>
+
+## What the reviewer should check
+- [ ] <concrete thing 1, e.g. "Add 'milk 1 L' to fridge → 'Pancakes' moves to green">
+- [ ] <concrete thing 2>
+- [ ] Keyboard: tab through the screen, focus is always visible
+- [ ] Vercel preview works on a phone
+
+## AI use
+Logged in docs/ai-log/<name>.md (entries <dates>). Human edits so far: <none / list>.
+```
+
+If the GitHub CLI (`gh`) is installed and logged in, you may open the PR yourself. Otherwise give the teammate the text and the link to open it.
+
+### 6.5 Conflicts
+Resolve conflicts by keeping both sides' intent and explaining what you kept. If you can't tell whose intent wins, ask. AI log files are per person precisely so they almost never conflict.
+
+---
+
+## 7. Tech stack (fixed; don't swap without the team agreeing)
+
+| Layer | Choice | Notes |
+|---|---|---|
+| Framework | **Next.js** (App Router) + **React** + **TypeScript** (strict) | Matches the course (Lectures 11–12, rubric dimension 3) |
+| Styling | **Tailwind CSS** | Tokens as CSS variables (section 11.3); dark mode via `class` strategy |
+| Theme switching | `next-themes` | Light / dark / system, no flash on load |
+| Fonts | `next/font/google` | Self-hosted at build time; see section 11.4 |
+| Accessible primitives | Radix UI primitives **unstyled** (`@radix-ui/react-dialog`, etc.) only where needed (bottom sheet, dialogs) | **Not** shadcn/ui default styling |
+| Icons | `@phosphor-icons/react`, one weight (regular), used sparingly | No icon-in-a-coloured-circle decoration |
+| Database & auth | **Supabase** (PostgreSQL) via `@supabase/ssr` and `@supabase/supabase-js` | **Anonymous sign-in** by default, so test users don't need an account |
+| Server logic | Next.js **Route Handlers** (`app/api/**/route.ts`) and Server Components | Secrets only on the server |
+| Recommendation | Plain TypeScript in `lib/recommender/` | Matching, pricing and k-NN; small data, no ML server needed |
+| Data science | Python 3.11, pandas, NumPy, Jupyter (`main.ipynb`) | Explore data, prototype and tune k-NN; TS must match the notebook |
+| Tests | **Vitest** for `lib/` logic | Recommender rules are safety-relevant (allergies) |
+| Lint | ESLint (Next config) + `eslint-plugin-jsx-a11y` (recommended rules) | |
+| PDF export | Print stylesheet + `window.print()` ("Save as PDF") | No PDF library unless the team asks |
+| Hosting | **Vercel** | Auto-deploy from `main`, preview URL per PR |
+| Package manager | **npm** | Commit `package-lock.json` |
+| Version control | Git + GitHub | Section 6 |
+| AI tool | Claude Code | You. Logged in `docs/ai-log/` |
+
+**Dependency rule:** before adding a package, check whether the platform or an existing dependency already does it. If you add one, record it in `docs/third-party.md` in the same commit.
+
+### 7.1 Scripts (keep these working in `package.json`)
+```
+npm run dev         # local dev server
+npm run build       # production build (must pass before every PR)
+npm run lint        # ESLint incl. jsx-a11y
+npm run typecheck   # tsc --noEmit
+npm test            # vitest run
+npm run seed        # load data/*.json into Supabase (server key, local only)
+```
+
+### 7.2 Environment variables
+`.env.local` (git-ignored) and Vercel project settings. `.env.example` lists the names with no values.
+
+| Variable | Where | Secret? |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | browser + server | no |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` (or the publishable key) | browser + server | no, safe **only** with Row Level Security on |
+| `SUPABASE_SERVICE_ROLE_KEY` (or the secret key) | server and seed script only | **yes, never in client code, never committed** |
+| `LLM_API_KEY` | server only, only if section 9.6 is built | **yes** |
+
+Supabase's free plan pauses a project after about a week without database activity. Before any demo or test session, open the app; if the project is paused, resume it from the Supabase dashboard.
+
+---
+
+## 8. Repository structure
+
+The repo currently contains `main.ipynb` (data exploration, pandas/NumPy), `site/index.html` (first static prototype) and `README.md`. The Next.js app lives at the repository root:
+
+```
+Cooly/
+├── app/
+│   ├── layout.tsx                # fonts, theme provider, <html lang="en">
+│   ├── page.tsx                  # redirects: onboarding if not done, else /recipes
+│   ├── onboarding/{allergies,diet,kitchen}/page.tsx
+│   ├── fridge/page.tsx, fridge/add/page.tsx
+│   ├── recipes/page.tsx, recipes/[id]/page.tsx
+│   ├── shopping-list/page.tsx
+│   ├── settings/page.tsx
+│   └── api/recommend/route.ts    # POST: fridge + budget + filters → grouped results
+├── components/
+│   ├── ui/                       # shared primitives: Button, Field, Sheet, TabBar, StatusMark… (ask before changing)
+│   └── <feature>/                # components used by one feature
+├── lib/
+│   ├── recommender/
+│   │   ├── matching.ts           # fridge vs recipe, quantities, status
+│   │   ├── pricing.ts            # cheapest completion from offers
+│   │   ├── knn.ts                # similar recipes
+│   │   ├── filters.ts            # hard constraints
+│   │   └── *.test.ts
+│   ├── supabase/{client.ts,server.ts}
+│   ├── format.ts                 # formatEUR, formatQuantity, units
+│   └── types.ts                  # shared domain types
+├── data/                         # source-of-truth datasets, reviewed via PRs
+│   ├── ingredients.json
+│   ├── recipes.json
+│   ├── offers.json               # with source + collected_on per row
+│   └── staples.json              # default "basics I always have"
+├── supabase/migrations/*.sql     # schema; one migration per change
+├── scripts/seed.ts
+├── docs/                         # see section 14
+├── design/                       # team designs, exported frames, screenshots
+├── public/
+├── main.ipynb
+├── site/index.html               # first prototype: reference only, don't extend
+├── CLAUDE.md
+├── README.md                     # the team's product description: don't rewrite unless asked
+└── .env.example
+```
+
+Don't restructure the folders without asking. If the structure in `README.md` becomes outdated, offer to update only that section.
+
+---
+
+## 9. Architecture, data and the recommender
+
+### 9.1 Architecture (explain it this way in `docs/architecture.md` and on slides)
+```
+Phone browser ──HTTP──► Next.js on Vercel
+   │                       ├─ Pages (React Server + Client Components)
+   │                       └─ POST /api/recommend   (REST endpoint, JSON in/out)
+   │                               ├─ reads recipes, ingredients, offers
+   │                               └─ runs lib/recommender (filters → matching → pricing → ranking)
+   └──► Supabase (PostgreSQL + Auth)
+          user data: profile, fridge, likes, shopping list (Row Level Security: own rows only)
+```
+- **Reference data** (recipes, ingredients, offers, k-NN neighbours) is the same for everyone and readable by all.
+- **User data** belongs to an anonymous (or upgraded) Supabase user and is protected by RLS.
+
+### 9.2 Data model (PostgreSQL)
+| Table | Key columns |
+|---|---|
+| `profiles` | `user_id` PK → auth.users, `diet`, `max_budget_cents`, `theme`, `text_size`, `onboarded_at` |
+| `allergens` | `id`, `name`: the **14 EU allergens** (cereals with gluten, crustaceans, eggs, fish, peanuts, soybeans, milk, tree nuts, celery, mustard, sesame, sulphites, lupin, molluscs) |
+| `profile_allergens` | `user_id`, `allergen_id` |
+| `equipment` / `profile_equipment` | `id`, `name` / `user_id`, `equipment_id` |
+| `ingredients` | `id`, `name`, `category`, `unit` (`g` / `ml` / `pcs`), `grams_per_piece` (nullable), nutrition per 100 g (`kcal`, `protein_g`, `carbs_g`, `fat_g`, `fibre_g`, `salt_g`) |
+| `ingredient_allergens` | `ingredient_id`, `allergen_id` |
+| `recipes` | `id`, `title`, `summary`, `servings`, `minutes`, `steps` (jsonb), `diet_tags` (text[]), `image_url` (nullable), `source` |
+| `recipe_ingredients` | `recipe_id`, `ingredient_id`, `quantity`, `optional` (bool) |
+| `recipe_equipment` | `recipe_id`, `equipment_id` |
+| `fridge_items` | `user_id`, `ingredient_id`, `quantity`, `updated_at` |
+| `stores` | `id`, `name` (Albert Heijn, Jumbo) |
+| `offers` | `store_id`, `ingredient_id`, `product_name`, `pack_quantity`, `price_cents`, `is_offer`, `valid_from`, `valid_to`, `source_url`, `collected_on` |
+| `shopping_list_items` | `user_id`, `ingredient_id`, `store_id`, `quantity`, `checked` |
+| `liked_recipes` | `user_id`, `recipe_id`, `created_at` |
+| `recipe_neighbors` | `recipe_id`, `neighbor_id`, `distance`, `rank` (precomputed cache) |
+
+Rules: store money as integer **cents**, quantities in the ingredient's canonical unit, and turn on RLS on every user table. Every schema change is a new migration file, and you ask first.
+
+### 9.3 Hard filters (apply first; never violated)
+A recipe is **excluded** if:
+- any non-optional ingredient contains a selected allergen;
+- its `diet_tags` don't include the user's diet (when the user has one);
+- it needs equipment the user doesn't have.
+
+Optional ingredients that contain an allergen are hidden from that user's view of the recipe, with a note. Unit tests must prove that an excluded allergen can never appear in any list, in similar recipes or in the shopping list.
+
+### 9.4 Matching and status
+For each recipe that passes the filters, and for each non-optional ingredient:
+- Treat ingredients in the user's **staples** ("basics I always have": salt, pepper, oil, water by default, editable in Settings) as available in any amount.
+- `have = fridge quantity` (convert pcs ↔ g with `grams_per_piece` when needed).
+- `covered` if `have ≥ needed`; `partial` if `0 < have < needed` (missing amount = `needed − have`); `missing` if `have = 0`.
+- **Missing count** = partial + missing ingredients. **Status:** 0 = ready (green), 1–3 = few (yellow), 4+ = many (red). Keep the thresholds in one constant.
+- **Sort within a list** by: cost to complete (ascending), then share of the recipe's ingredients the user already has (descending), then cooking time.
+- **Explain every result in plain words**, e.g. "You have 5 of 7 · €2.40 to finish at Jumbo". This supports Nielsen #1 and scrutability.
+
+### 9.5 Pricing: cheapest completion
+- For each missing amount, pick per store the cheapest offer that is valid today. You buy whole packs: `packs = ceil(missing / pack_quantity)`, `cost = packs × price`.
+- Compute (a) the **cheapest single store** and (b) the **cheapest mix** across stores. Show the single store by default (students rarely visit two shops). Show the mix only if it saves at least €1.00 (make the threshold a constant the team can change; log it as a proposed decision).
+- Recipes above `max_budget` are hidden by default, with a visible "Show 6 over budget" toggle. Nothing is hidden silently (Nielsen #1, user control).
+- **Price honesty:** offers come from a **curated dataset that the team collects by hand** from the stores' public websites or folders, each row with `source_url` and `collected_on`. Don't scrape store websites or call unofficial APIs. Always show "Prices checked on <date>" near costs. Ingredients without an offer show "No price yet", not €0.
+
+### 9.6 Similar recipes: k-NN (the AI core)
+- **Feature vector per recipe:**
+  - multi-hot ingredients, weighted by inverse frequency (rare ingredients matter more);
+  - multi-hot diet tags and equipment;
+  - nutrition per serving, z-scored;
+  - cost estimate and minutes, z-scored.
+  - Store the feature weights in one config object.
+- **Distance:** cosine. **k = 5** by default.
+- **Hard filters apply to neighbours too:** compute neighbours, then drop any that violate the user's constraints, and backfill from the next nearest.
+- **"Similar to this"** on recipe detail: neighbours of that recipe.
+- **"Because you liked…"** on the results screen: neighbours of the mean vector of liked recipes. Show it only when the user has liked at least one recipe.
+- **Explanation line:** the top shared features, e.g. "Also eggs and tomatoes · also one pan".
+- **Implementation:** the curated set is small, so compute in TypeScript and cache in `recipe_neighbors`. The notebook is where the team explores and tunes it; when the notebook's features or k change, mirror them in `knn.ts` and say so in the AI log.
+
+**Optional LLM layer** (Could; build only if the team asks):
+- **What it does:** a server-side call that writes a one-sentence explanation or re-ranks the top 10.
+- **What it may receive:** only recipe titles and ingredient names, never allergies, diet, user identifiers or free text the user typed.
+- **Disclosure:** a 2-sentence privacy note in Settings (as in Lab 3).
+- **Failure:** the app works fully when the LLM is unavailable.
+- **Limits:** no more than 3 seconds per call; on timeout, fall back.
+
+### 9.7 Levels of automation and adaptivity (use these terms on slides)
+- **Taylor's levels of automation, level 3:** "the computer suggests options and proposes one". Cooly ranks and suggests; **the user always decides**. Never auto-add to the shopping list, change the fridge or apply filters without a user action.
+- **Browne's levels of adaptivity:** level 1 (output changes with fridge, budget and filters) and level 2 (remembers likes → "Because you liked…").
+- **User model:** allergies, diet, equipment, budget, staples, likes, text size, theme.
+- **Scrutability:** every recommendation can answer "why this?" in one line.
+- **Layered evaluation** (Paramythis): see section 15.6.
+
+---
+
+## 10. Screen specifications
+
+General rules for every screen:
+- **One primary action**, placed in the thumb zone, usually a full-width button above the tab bar.
+- **A clear title** that says where you are (Nielsen #1, recognition).
+- **States:** empty, loading (skeleton only if it takes more than 300 ms), error (plain language plus a way out), and success feedback.
+- **Back and exits:** always a way back; destructive actions can be undone (a toast with "Undo" for 5 s) rather than confirmed with a dialog.
+
+| Screen | Must have |
+|---|---|
+| **01–03 Onboarding** | "Step 1 of 3" text plus a progress bar. Large tappable options (chips or checkbox rows ≥ 48 px). "Skip for now" on every step. Back works. Choices save as you go. The allergy step shows the safety disclaimer. Three steps only: don't add more (Hick's law, ADHD-friendly) |
+| **04 My fridge** | List grouped by category, each row with name, quantity and unit, and an inline quantity stepper plus edit. Primary action "Add ingredients". Empty state: "Your fridge is empty. Add a few things you have, like pasta or eggs." Remove with undo |
+| **05 Add ingredients** | Search field with focus on open, results as you type, recent and common items when empty. Tap → choose a quantity (sensible default per unit) → added. Show "Added: spinach 100 g" feedback while staying on the screen to add more (efficiency, Nielsen #7) |
+| **06 Recipe results** | Budget control visible at the top ("Up to €5.00", tappable). Three sections in fixed order: Ready to cook · Missing a few · Missing many, each with its status mark and count, e.g. "Ready to cook (3)". Cards show title, the status line ("You have 5 of 7"), cost to complete, minutes. A "Filters" button opens sheet 10 and shows the number of active filters. "Because you liked…" row when available. Over-budget toggle |
+| **07 Recipe detail** | Title, minutes, servings. **You have** list and **You need** list (missing amount and price per item, with the store). Cost to complete with a single-store / mix toggle. "Add missing to shopping list" as the primary action. Steps with adjustable text size. Nutrition per serving (a table, not a chart). Similar recipes with explanation lines. Like button. "Export as PDF". Disclaimer |
+| **08 Shopping list** | Grouped by store, with item, amount and price; check off items; running total per store and overall; "Prices checked on <date>"; clear checked items (with undo). Empty state points to recipes |
+| **09 Settings** | Appearance (Light / Dark / System), text size for cooking steps (4 steps with a live preview), food preferences (opens the onboarding choices), staples list, privacy note, "Reset my data" (with confirmation, because it can't be undone) |
+| **10 Filters (bottom sheet)** | Allergies, diet, equipment, max cost. "Show 12 recipes" as the apply button (live count). "Reset". Closes with Esc, swipe down or a tap outside; focus is trapped while open and returns to the "Filters" button on close |
+| **Print / PDF** | `@media print`: title, ingredients with amounts, steps, nutrition, Cooly wordmark and URL in the footer; no navigation or buttons; black on white |
+
+---
+
+## 11. Design direction: made by people, not by a prompt
+
+The team explicitly does **not** want the generic look of AI-generated apps. Treat this section as strictly as accessibility.
+
+### 11.1 The concept: "a student's kitchen notebook"
+Warm paper, dark ink, one blue pen (a nod to **Delft blue**), and receipts for anything about money. Calm, practical, a bit personal, like something a careful student made for their friends. Not a startup landing page. Every visual decision should be explainable through this concept.
+
+### 11.2 Banned (these give away "AI-made")
+- Purple, indigo or violet gradients; any decorative gradient; glassmorphism and blur panels; glowing shadows; neon in dark mode.
+- Gradient text, "✨" sparkles, wand or robot icons, or "AI-powered" badges. The AI shows in what it does, not in decoration.
+- Emoji in the UI (labels, headings, empty states, buttons).
+- Icons inside pastel circles or squares; rows of three identical feature cards; big centred hero sections.
+- Everything `rounded-2xl` / `rounded-3xl` with `shadow-lg`; cards inside cards; badges everywhere.
+- Default shadcn/ui or "Tailwind UI" look, Inter or system-only typography, slate/gray-500 everything.
+- Marketing copy: "Unlock", "Elevate", "Seamless", "Discover the power of", "Let's get cooking! 🍳", "Oops!".
+- Lorem ipsum or obviously fake data ("John Doe", "Recipe 1"). Use real ingredient names, realistic Dutch prices and real recipe names.
+- **AI-generated food images.** They look fake and mislead about the dish.
+- Animation for its own sake: bouncing, staggered fade-ins, parallax.
+
+### 11.3 Colour tokens (contrast checked: all text pairs pass WCAG AA, most AAA)
+Define them as CSS variables in `app/globals.css` and map them in `tailwind.config`. **Never use raw hex values in components.**
+
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| `--bg` | `#FBF8F3` (paper) | `#171614` (warm charcoal, never pure black) | page |
+| `--surface` | `#FFFFFF` | `#201F1C` | cards, sheets |
+| `--sunken` | `#F2EDE4` | `#2A2925` | inputs, grouped areas |
+| `--ink` | `#1D1B18` | `#EEE9E1` | primary text |
+| `--ink-muted` | `#5E584F` | `#ABA397` | secondary text (still ≥ 4.5:1) |
+| `--line` | `#E3DCD0` | `#3A3833` | decorative dividers only |
+| `--border` | `#8A8275` | `#78726A` | input and control outlines (≥ 3:1) |
+| `--accent` | `#1E4F91` (Delft blue) | `#8DB4EC` | primary buttons, links, focus ring |
+| `--on-accent` | `#FFFFFF` | `#10233F` | text on accent |
+| `--accent-soft` | `#E3ECF8` | `#1C2A3F` | selected chips |
+| `--ok` / `--ok-soft` | `#23683F` / `#E4F1E8` | `#7FCB98` / `#1D3326` | Ready to cook |
+| `--few` / `--few-soft` | `#8A5A00` / `#FBEFD6` | `#E8B860` / `#3A2E14` | Missing a few |
+| `--many` / `--many-soft` | `#A3261E` / `#F9E3E0` | `#F09A90` / `#3D201D` | Missing many, errors |
+
+The accent is never used for status. Status colours are never used for anything else.
+
+### 11.4 Typography
+- **Titles:** *Young Serif* (one weight). Use it for screen titles and recipe names only, to give a warm cookbook feel.
+- **Everything else:** *Atkinson Hyperlegible Next*, designed for legibility for low-vision readers, which fits our accessibility goal and is worth mentioning on slides. If it's unavailable in `next/font/google`, use *Atkinson Hyperlegible*.
+- **Prices, quantities and totals:** *IBM Plex Mono* with tabular numbers. This is the receipt feel.
+- **Scale (mobile):** body 17 px / 1.5; secondary 15 px; small labels 13 px minimum; screen title 28 px; recipe title on detail 30 px. Use `rem` so user zoom works.
+- **Cooking-steps text size setting:** 17 / 20 / 24 / 28 px.
+- Left-aligned text; line length ≤ 70 characters; sentence case for everything (no Title Case Buttons, no ALL CAPS except tiny section labels).
+
+### 11.5 Shape, space and depth
+- Radius: 6 px on controls, 10 px on cards and sheets, full on chips. Nothing larger.
+- Depth comes from **1 px borders and background steps**, not shadows. The one exception is a single soft shadow on the bottom sheet.
+- 4 px spacing grid. Screen padding 20 px. Generous vertical rhythm; don't fill every gap.
+- Lists over cards where possible (fridge, shopping list). Cards only for recipes.
+- **Shopping list as a receipt:** monospace prices aligned right, dashed separators between stores, total in bold.
+
+### 11.6 Status marks (never colour alone)
+Each status has **colour + shape + word + count**:
+- Ready to cook: a filled circle mark plus "Ready to cook".
+- Missing a few: a half-filled circle plus "Missing 2".
+- Missing many: an empty circle with an outline plus "Missing 5".
+
+Draw the marks as inline SVG in `components/ui/StatusMark.tsx`, with an `aria-label`.
+
+### 11.7 Imagery
+- **First choice:** the team's own photos of dishes they cooked (log them in third-party as "own photo").
+- **Second choice:** properly licensed photos, with attribution in `docs/third-party.md`.
+- **Otherwise:** no photo. A text-first card with a thin ingredient-coverage bar is better than fake food.
+
+### 11.8 Motion
+- 150–200 ms ease-out for sheets, toasts and state changes. Nothing else moves.
+- Respect `prefers-reduced-motion` (turn transitions off).
+
+### 11.9 Voice and microcopy
+- **Tone:** plain, friendly and specific, like a flatmate who's good with money. Second person, short sentences, no exclamation marks.
+- **Buttons say what happens:** "Add to shopping list", not "Continue" or "Submit".
+- **Numbers over adjectives:** "€2.40 to finish", not "Super cheap!".
+- **Errors** say what happened and what to do: "Couldn't load prices. Your recipes still work; prices will appear when you're back online." (Nielsen #9)
+- **Examples:**
+  - "You can cook 3 recipes right now."
+  - "Missing 2 · €1.85 at Albert Heijn"
+  - "Similar: also uses chickpeas · also one pan"
+
+### 11.10 Self-check before calling a screen done
+1. Does it look like it belongs in the kitchen-notebook concept, or like a template? If it could be any app, change it.
+2. Is anything on the banned list (section 11.2)?
+3. Is there exactly one obvious primary action?
+4. Does it work and look right in dark mode?
+5. Would a tired student understand it in 3 seconds? (Lab 2 rule: the primary action is visible within 3 s.)
+
+---
+
+## 12. Accessibility and inclusive design (hard requirements)
+
+### 12.1 WCAG 2.2 AA rules applied to Cooly
+- **Contrast:** text ≥ 4.5:1; large text, icons, control borders and the focus ring ≥ 3:1. Use only the tokens in section 11.3. If you add a colour, verify it.
+- **Colour is never the only signal** (status marks, errors, selected chips: add text, shape or icon).
+- **Touch targets ≥ 44 × 44 px, 48 px preferred**, with ≥ 8 px between targets (Fitts's law, UD 7). Pad small icons.
+- **Visible focus** on every interactive element: a 2 px accent outline with a 2 px offset. Never `outline: none` without a replacement.
+- **Semantic HTML:** `<button>` for actions and `<a>` for navigation (never `div onClick`); `<nav>` for the tab bar with `aria-current="page"`; one `<h1>` per screen; lists as `<ul>`; forms with `<label>`; `lang="en"`.
+- **Screen readers:** quantities are read in full ("100 grams spinach"); status marks have `aria-label`; live regions announce "Added spinach, 100 grams" and result-count changes (`aria-live="polite"`); the sheet uses dialog semantics and traps focus.
+- **Text resize:** layout survives 200% zoom and the largest text-size setting without overlap or horizontal scrolling.
+- **No hover-only or drag-only interactions.** Every swipe has a button alternative (UD 1, UD 6).
+- **Forms:** don't disable submit buttons without explaining why; validate inline, in plain words; keep entered data when something fails.
+- **Motion:** `prefers-reduced-motion` respected; nothing flashes.
+
+### 12.2 Universal Design: answer these 7 questions for every screen (from the course cheat sheet)
+
+| Principle | Question |
+|---|---|
+| 1 Equitable use | Can everyone use the same screen (no mouse-only or hover-only paths)? |
+| 4 Perceptible info | Is it readable with low vision, and is colour never the only cue? |
+| 2 Flexibility | Finger, keyboard and screen reader all work; focus is visible? |
+| 7 Size & space | Can someone with shaky hands hit every target? |
+| 3 Simple & intuitive | Would someone new to apps know where to tap? One main action? |
+| 6 Low physical effort | How many taps does the main task take? Remove unneeded steps |
+| 5 Tolerance for error | What happens on a wrong tap? Back, Close, Undo always available |
+
+### 12.3 Neurodivergent-friendly (ADHD) and low-energy use
+- Short flows: onboarding is 3 steps, and each can be skipped.
+- Progress saves automatically; no timers, no streaks, no guilt messages.
+- One decision per screen where possible. Defaults are pre-selected sensibly.
+- Cook mode: one step at a time, big text, keep the screen awake (Wake Lock API, with a graceful fallback).
+- Carry information across screens so users don't have to remember it (working memory, Nielsen #6).
+
+### 12.4 Accessibility checks you run
+On every PR touching UI:
+- `npm run lint` (jsx-a11y);
+- a keyboard-only pass;
+- a check at 390 px and at 200% zoom;
+- both themes.
+
+Before D2 and D3, also run Lighthouse accessibility and axe DevTools on every screen, and record the results in `docs/evaluation/a11y-audit.md`. A VoiceOver (iOS) or TalkBack (Android) pass on the main flow is a team task; prepare a checklist for it.
+
+---
+
+## 13. Privacy, ethics and safety
+
+- **Allergies are health data** (a special category under the GDPR).
+  - Store the minimum.
+  - Never send them to third parties (including any LLM).
+  - Explain in Settings what is stored and why.
+  - "Reset my data" deletes everything for that user.
+- **Anonymous sign-in by default:** no names or emails needed.
+- **User tests:** participants **use prepared persona profiles** (a fictional fridge and fictional allergies), not their own health information. This removes most privacy risk; record it as a mitigation in the risk plan.
+- **Research ethics** (TU Delft Risk-Planning Tool + course rules):
+  - granular informed consent with separate tick boxes;
+  - stated purpose, tasks, risks and mitigations;
+  - the data collected;
+  - anonymisation;
+  - **the right to withdraw at any time without penalty**.
+  - Avoid dependent relationships, e.g. don't test on students you TA. Collect less personal data where possible.
+- **Seed and mock data** are clearly fictional and marked as such in the data files. Real prices come with `collected_on`.
+- **Bias check:** curated recipes should cover a range of cuisines, diets (including halal and vegan) and budgets, not only Western-European dishes. Report coverage in `docs/data-notes.md`. k-NN can only recommend what is in the set ("bias in the source data", as in Hitron et al.), so name that limitation honestly.
+
+---
+
+## 14. Documentation you maintain automatically
+
+Create these files when first needed. Keep them short, factual and current. Commit doc updates with the change they describe.
+
+### 14.1 AI log: `docs/ai-log/<first-last>.md` (one file per teammate, append-only)
+**Why per person:** six people appending to one file would cause merge conflicts on every PR.
+
+**What to log:** every prompt that leads to code, data, design, a decision or document content. Group small follow-ups ("make it bigger", "fix that") into the entry they belong to. Skip pure chit-chat and trivial commands. Record prompts **verbatim**, removing only secrets and personal data. Add an English translation if the prompt is in Romanian.
+
+**Entry template:**
+```markdown
+### 2026-11-26 14:10 · feature/fridge-screen
+- **Tool:** Claude Code (<model name>)
+- **Type:** ideation | requirements | IA | UI scaffolding | logic | data | debugging | git | docs | evaluation support
+- **Core prompt for slides:** yes/no  (yes = complex UI or logic, a turning point, or a good example of AI failing)
+- **Prompt (verbatim):**
+  > …
+- **Prompt (English):** … (only if the original isn't English)
+- **AI output:** files changed + 1–3 lines on what was produced
+- **Human in the loop:** what the teammate reviewed, corrected, rejected or redirected in this session, as facts ("Asked to replace the card grid with a list", "Rejected auto-adding to shopping list"). If nothing yet: "Pending PR review".
+- **AI issues found:** anything wrong in the AI output and how it was caught (hallucinated API, inaccessible markup, wrong unit conversion…). "None noticed" if none.
+- **Requirements:** FR-xx, NFR-xx
+- **Commit / PR:** <hash or link> (fill in at commit time)
+```
+
+When the team asks for the **AI Use** slides, compile `docs/ai-log/SUMMARY.md` from all entries:
+- tools used;
+- the core prompts by category;
+- counts by type;
+- the main human edits;
+- the main AI issues.
+
+That summary is data. The team writes the critical reflection.
+
+### 14.2 AI limitations log: `docs/ai-limitations.md`
+Dated, factual bullets every time AI output was wrong, inaccessible, insecure, biased, generic-looking or misunderstood the context, including your own mistakes. Each bullet names the impact and the fix. This is the evidence the team needs for LO8 (advantages and disadvantages of AI). Be honest; an empty file would not be believable.
+
+### 14.3 Third-party attribution: `docs/third-party.md`
+| Name | Type (library / dataset / font / icons / image / API / service) | Used for | Licence | Link | Added |
+
+Update it in the same commit as the new dependency, font, dataset or image.
+
+### 14.4 Design decisions: `docs/decisions.md`
+| ID | Date | Decision | Principle(s) | Alternatives considered | Evidence | Status (proposed / accepted / reverted) |
+
+Add an entry as **proposed** when you make a notable design or architecture choice. Teammates mark entries accepted. Feed the "System design" slides from accepted entries.
+
+### 14.5 Requirements: `docs/requirements.md`
+- **Functional (FR-xx) and non-functional (NFR-xx)** requirements, each with: user story ("As a [user] I want [capability] so that [value]") → **SMART** system requirement(s) ("The system shall…") → **MoSCoW** → acceptance criteria → status (planned / in progress / done / tested).
+- **Non-functional requirements must be measurable.** Examples:
+  - "Results update in ≤ 1 s after a fridge change on a mid-range phone"
+  - "All text ≥ 4.5:1 contrast in both themes"
+  - "Targets ≥ 44 × 44 px"
+  - "Works without an account"
+  - Never "user-friendly" or "fast".
+- You may draft and refine requirements (the course encourages AI-assisted requirements with human verification). Mark new ones `proposed` until the team confirms them, and check them for vague words, conflicts and missing accessibility or privacy requirements.
+- Keep the status in sync as features land. Reference IDs in PRs.
+
+### 14.6 Other docs (create when useful)
+- `docs/pact.md`: People, Activities, Contexts, Technologies; user classes; ≥ 2 personas (e.g. a commuting student on €40/week, a first-year cooking for the first time, a student with ADHD and low energy after classes, a halal or vegan student); scenarios **without UI details**. If the team already has PACT material from Lab 1, use it; never replace real interview findings with invented ones.
+- `docs/ia.md`: content inventory, organisation scheme (exact vs inexact), the four-tab global navigation and why, labels, card-sort results.
+- `docs/architecture.md`: the diagram from section 9.1 explained in plain words (client, server, HTTP request/response, REST endpoint, JSON, database, RLS).
+- `docs/data-notes.md`: dataset sources, how offers were collected, coverage of cuisines and diets, known gaps.
+- `docs/evaluation/`: see section 15.
+
+---
+
+## 15. Evaluation toolkit (prepare everything; the team runs it with real people)
+
+### 15.1 Choosing the method (course matrix)
 | Stage | With users | With experts |
 |---|---|---|
-| Design (ideas, sketches) | Focus groups, interviews | Cognitive walkthrough |
-| Prototype (often in a lab) | Participatory heuristic evaluation, co-discovery, interviews, cooperative evaluation, lab experiments | Cognitive walkthrough, heuristic evaluation |
-| Deployment (daily use) | Interviews, data analytics, field experiments | — |
+| Design | interviews, focus groups | cognitive walkthrough |
+| Prototype | think-aloud, cooperative evaluation, co-discovery, participatory heuristic evaluation, lab experiments | heuristic evaluation, cognitive walkthrough |
+| Deployment | interviews, analytics, field experiments | — |
 
-**Early user methods:**
-- **Cooperative evaluation:**
-  - The participant works with the evaluator, thinking aloud. Reliable but less economical.
-  - **Steps:** task list → time estimate → task sheet → materials → introduce tasks → running commentary → prompt the participant to keep talking → brief interview → notes and report.
-- **Participatory heuristic evaluation:** end users apply the heuristics. They need a good briefing; the downside is that they don't know heuristics well.
-- **Co-discovery:** pairs or groups think aloud together. Naturalistic; captures first impressions; later design stage.
-- **Think-aloud:**
-  - Participants say what they look at, think, do and feel. Record and transcribe, ideally with what they were doing at the time.
-  - Prompt minimally.
-- **Interviews:**
-  - Best for open, complex questions.
-  - Structured or topic-based; max 1 h.
-  - Summarise answers and confirm them with the participant.
-  - Listen more than you talk; aim for understanding, not generalisation.
+Plan for Cooly: a peer **heuristic evaluation** (Lab 4) → **think-aloud usability tests** with 5 budget students on their own phones plus **SUS** → optionally a small **comparative study** (e.g. results as three lists vs. one ranked list) → changes → re-test.
 
-**Controlled experiments:**
-- **Lab vs field:**
-  - Lab: easier, cheaper, no full deployment needed.
-  - Field: true to life, but costly and long-term.
-- **Pros and cons:** you see real use with end users, but you need a (partly) working system; unfinished parts can bias results, and experiments take time.
+### 15.2 Research questions
+Use one of the six types (descriptive, comparative, evaluative, defining, explaining, designing). Keep each focused and feasible. For example:
+- "How usable is Cooly's add-to-fridge flow for students on a budget?" (evaluative)
+- "Do students complete a recipe search faster with grouped or with ranked results?" (comparative)
 
-**The 10-step experiment recipe:**
-1. **Variables:**
-   - **Independent:** what you manipulate (the conditions).
-   - **Dependent:** what you measure.
-   - **Confounding:** anything else that affects the dependent variable.
-   - Examples: font colour → clicks, with colour blindness as a confounder; voice pitch → robot likeability, with participant gender and robot colour as confounders.
-2. **Literature check for confounders.** Measure only those you have a rationale for.
-   - Warning: **p-hacking**. At α = .05, 100 tests yield about 5 false positives.
-   - Control for confounders statistically with **ANCOVA**: categorical IV, continuous DV, continuous covariate; check assumptions such as no outliers.
-3. **Design:**
-   - **Within-subjects:** everyone sees all conditions. Needs fewer people and controls for individual differences, but has learning and fatigue effects.
-     - **Counterbalance** (randomise order) and check order as a factor in the analysis.
-     - Counterbalancing doesn't *fix* learning effects. If you expect them (e.g. instructions A vs B), use between-subjects. Invalid results cost more than recruiting more people.
-   - **Between-subjects:** each person sees one condition. No learning effects, but more people needed.
-   - **Mixed design:** e.g. explanation style between subjects × task type within subjects.
-4. **Participants:**
-   - **Inclusion criteria:** what everyone must have, e.g. 60+, can travel to the location, owns a smartphone.
-   - **Exclusion criteria:** what no one may have, e.g. lacks language proficiency, took part in a previous study, is the experimenter's student.
-   - **Sample size:** depends on design, analysis, power and effect size; calculate with G*Power. In practice: how many can you get, and is it close enough? There's no reason to exceed the ideal. Small samples risk null results.
-5. **Measures:**
-   - **Subjective:** questionnaires (what people *say*).
-   - **Objective:** physiological (heart rate, skin conductance, for stress or emotion; what people *feel*) and behavioural (clicks, usage time, choices, following suggestions; what people *do*).
-   - **Questionnaire pitfalls:** what am I really measuring (construct validity, e.g. the Mayer & Davis trust/integrity items)? Do all items measure the same thing? Ceiling effects? Can people identify their own opinions?
-   - **Cronbach's α** measures internal consistency; ≥0.7 is a common but arbitrary threshold. α can be *too* high (duplicate items). Check which items to drop to raise α.
-   - **Use validated questionnaires.** Don't write your own.
-6. **Procedure:** step by step, replicable (consent → task 1 → task 2 → questionnaires …).
-7. **Analysis plan:** write it before collecting data.
-   - **Pipeline:** prepare and transform data (score items 1–5, reverse negatively worded items, sum) → descriptives (mean, SD) → choose the test → check assumptions (normality via Shapiro-Wilk and QQ plots; if not met, use a non-parametric test) → run it → post-hoc tests (pairwise with Bonferroni correction) → interpret.
-   - **Example:** repeated-measures ANOVA on self-esteem at t1, t2, t3: F(2,18) = 55.5, p < .0001, η²g = .83. Report it in exactly that format.
-8. **List possible outcomes and what each would mean.**
-9. **Write the ethics proposal.**
-10. **Run a pilot.**
+### 15.3 What you prepare in `docs/evaluation/`
+- `protocol.md`:
+  - goal and research question;
+  - participants (inclusion criteria: student, budget-conscious, owns a smartphone; exclusion criteria: team members, students in a dependent relationship);
+  - tasks, written with no UI words;
+  - script;
+  - measures (task success, time, errors, SUS, think-aloud notes);
+  - analysis plan, written **before** collecting data;
+  - pilot first.
+- `consent-form.md`: granular opt-ins; purpose, tasks, risks, mitigations; data collected (e.g. notes, task times, optional screen recording); anonymity; **withdraw at any time without penalty**; contact details.
+- `tasks.md`, plus persona profiles to load (fictional fridge and allergies), plus a reset link to load them.
+- `sus.md` with the 10 standard SUS items. Scoring:
+  - odd items: response − 1;
+  - even items: 5 − response;
+  - sum × 2.5 → 0–100.
+  - Provide `scripts/sus.ts` or a notebook cell to compute it from a CSV the team fills in.
+- `heuristic-eval-template.md`:
+  - Nielsen's 10 heuristics;
+  - evaluators work independently, go through the prototype at least twice, then aggregate;
+  - each problem listed separately, with the heuristic violated and why;
+  - severity = impact × frequency (1–5), plus cost to fix.
+- `cognitive-walkthrough.md`: per action step, the 4 questions:
+  - Will they try to achieve the right effect?
+  - Will they notice the action?
+  - Will they associate the action with the effect?
+  - Will they see progress?
+- `findings.md`: **filled only with real results** from real sessions. You can help structure, count and chart them, and propose design revisions mapped to findings. The interpretation is the team's.
 
-**Significance:**
-- p < .05 means the chance of a Type I error (false positive) is below 5%. It is about generalising from the sample to the population.
-- Non-significance does **not** prove there is no difference; you can conclude neither "different" nor "same".
-- Differences are transitive (A > B > C means A > C); non-significance is not.
+### 15.4 Reporting format (for slides)
+- Participants: N, how and where recruited, relevant characteristics.
+- Procedure: replicable.
+- Measures and analysis.
+- Results as "M = …, SD = …", with no speculation in the results section.
+- Discussion: insights, limitations, next steps.
 
-**Reporting a study** (Methods → Results → Discussion):
-- **Participants (always):**
-  - Who they are, how and where they were recruited, N, mean age and SD, gender balance, other relevant characteristics, and how those were measured.
-  - Example: "18 children, mean age 8.89, SD 0.81, 9 boys and 9 girls, extroversion measured with BFQ-C."
-- **Procedure (always):** setup, task content, order and repetition, when measures are taken, language and duration. *Someone else must be able to replicate it.*
-- **Materials (if applicable):** the system, prototype and hardware (robot, VR headset).
-- **Measures (always):** what is measured and how (which questionnaire, video annotation scheme, transcription).
-- **Data preparation & analysis:** transcription, problem prioritisation, type of qualitative analysis, raw-to-score computation.
-- **Results:** text, tables or graphs without speculating on why, e.g. "M = X (SD = Y) for group A".
-  - One mean: write it in the text.
-  - Five conditions: use a figure.
-  - Six variables × three conditions: use a table.
-- **Discussion:** interpretation and insights, future work, limitations.
-- **Group report appendices** don't count toward the word limit **and are not graded**, so put essential content in the main text.
+Put essential content in the main slides, not appendices.
 
-**Model paper: Hitron, Morag & Erel (2023), "Implications of AI Bias in HRI" (HRI '23)**
-- **Design:** a robot moderated debates between a man and a woman. Between-subjects, 3 conditions: **Pro-Man** (stereotype-consistent), **Pro-Woman** (counter-stereotypical), **No-Preference**.
-- **Participants:** 66 (33 man/woman pairs), mean age 24.1, SD 3.35. Sample size justified with G*Power (≥60 for a medium-large effect, 3 conditions). Random assignment.
-- **Measures:**
-  - Objective: Gender-Leadership **Implicit Association Test (IAT)**, reaction times.
-  - Subjective: semi-structured interviews with thematic coding (two researchers, then a third to resolve).
-  - Debriefing at the end.
-- **Analysis:** mixed ANOVA; condition × IAT congruency interaction F(2,60) = 4.6, p = .03, η²p = .11.
-- **Findings:**
-  - Pro-Man increased stereotypical thinking; No-Preference increased it less.
-  - Pro-Woman eliminated it.
-  - Participants perceived the robot as objective (the "veil of objectivity") and rarely noticed its bias.
-- **Lessons:**
-  - AI bias in embodied, autonomous agents reinforces societal stereotypes because people question technology less than humans.
-  - Counter-biased behaviour can be used deliberately for good.
-  - Bias can't be fixed just by adding more data when the bias is in the source data.
+### 15.5 Statistics reminders (if the team runs a comparison)
+- Within-subjects designs: counterbalance and check order effects. Use between-subjects if you expect learning effects.
+- Check assumptions (Shapiro–Wilk, Q-Q plot); use non-parametric tests if they fail.
+- Use Bonferroni for post-hoc tests.
+- No p-hacking.
+- Non-significant does not mean "the same".
+- Use validated questionnaires only (SUS, UEQ, NASA-TLX); don't invent scales.
+
+### 15.6 Layered evaluation of the recommender (Paramythis et al.)
+| Layer | Cooly question | How to check |
+|---|---|---|
+| 1 Collect input | Do fridge entries and quantities get recorded correctly? | Task success + data inspection |
+| 2 Interpret | Does a "like" mean the user wants similar food? | Ask in the post-task interview |
+| 3 Model | Do the profile and fridge reflect the user's reality (allergies, equipment, staples)? | Compare with the persona sheet |
+| 4 Decide | Are the green/yellow/red thresholds and the budget cut-off right for students? | Think-aloud on the results screen |
+| 5 Apply | Are cards, explanations and costs understood and trusted? | SUS, comprehension questions |
+
+A **Wizard of Oz** test (a teammate hand-picks "similar recipes" behind the UI) is a valid way to test layer 5 before k-NN is tuned. Define the wizard's observation, action space and protocol.
 
 ---
 
-## 9. Adaptive systems (Lecture 7)
+## 16. Slide decks: prepare outlines and evidence, not the final analysis
 
-**Adaptive systems** adapt to the user and/or environment. Almost all systems do minimally; "intelligent" adaptivity often means AI.
+Store the outlines in `docs/slides/`. Fill them with facts, screenshots to take, numbers and links; leave the analytical wording to the team (section 3).
 
-**Levels of adaptivity (Browne et al. 1990):**
-1. Output changes with input.
-2. Responds to input sequences (has memory).
-3. Monitors the effect of its adaptation and changes based on it.
-4. Has an internal model of the interaction and adapts based on expected effect.
-5. Higher-level reasoning that can change its own internal models.
+**D2 (due Wed 9 Dec 23:59, frozen after submission):**
+1. Motivation & Problem
+2. Proposed Solution
+3. Functional & Non-functional Requirements (from `requirements.md`, with MoSCoW)
+4. System Design: PACT summary, IA / navigation, key flows and screens, adaptive design for user and accessibility constraints, architecture
+5. Next Steps
 
-**Domain model:** the system's representation of its environment, at three description levels:
-- **Physical:** colour, position, time ("white text on blue, top-left").
-- **Conceptual:** "logo", "button", "header".
-- **Intentional:** purpose, urgency, topic ("tells you which institution's website you're on").
+All six names and student numbers go on the title slide.
 
-**User model:** what the user's knowledge, behaviour, emotion and personality mean for adaptation. Needed whenever the system goes beyond plain input-output.
+**D3 (due Wed 20 Jan 2027 23:59):**
+1. Motivation & Problem
+2. Proposed Solution
+3. Functional & Non-functional Requirements (updated, with status)
+4. System Design & **Critical AI Use**
+5. Interactive Prototype (**live URL**, key flows)
+6. Evaluation & Results (methods, participants, results, design revisions made)
+7. Conclusions & Future Outlook
+8. **AI Use** section or appendix: tools, core prompts, manual edits, limitations, human-in-the-loop
 
-**Emotion — represent, detect, adapt:**
-- **Discrete:**
-  - Ekman: anger, disgust, fear, happiness, sadness, surprise.
-  - Plutchik pairs: joy–sadness, anger–fear, trust–disgust, surprise–anticipation.
-- **Dimensional:** **valence** (negative to positive) × **arousal** (energy). Examples: excited vs happy, tired vs calm, sad vs annoyed, anger vs fear.
-- **Appraisal theory:** not covered.
-- **Adaptation modalities:** behaviour, language, embodiment.
-
-**Wizard of Oz (WoZ):**
-- A hidden human simulates part of the system's intelligence behind a real or mock interface, to test a function before the rest exists. Example: test expressed regret when speech recognition doesn't work yet.
-- **What the wizard simulates is not the subject of the study.**
-- **Good for:** complex vertical functionality, futuristic ideas, testing premises.
-- **Drawback:** a human never behaves exactly like the eventual system.
-- **Wizard protocol:**
-  - **Observation:** what the wizard can perceive. Limit it to what the system will perceive; for example, audio only if the system only hears.
-  - **Action space:** what the wizard can do. Limit it to the system's future capabilities; for example, type text with only `,` and `.`, or pick one of 6 categories.
-  - **Protocol:** exactly how observation maps to action; for example, type exactly what is said, including "ehs".
-  - Components buildable with current technology are easier to specify.
-- **LLMs** can now fill many WoZ language roles. You still need to control outputs through prompt engineering, so behaviour is consistent across participants yet natural for each one.
-
-**Layered evaluation (Paramythis et al. 2010):** evaluate adaptation in layers, not as a monolith.
-
-| Layer | Question | Criteria | Example |
-|---|---|---|---|
-| 1. Collect input data | Is behaviour registered accurately? | Reliability, accuracy, latency | Is the audio recorded properly? Does the camera see the face? |
-| 2. Interpret data | Are users doing what the system thinks? | Validity | Does a positive rating mean the user liked the movie? Is speech transcribed correctly? |
-| 3. Model the current state of the world | Does the user/context model reflect reality? | Validity; also comprehensiveness, redundancy, precision, sensitivity, scrutability | Are intents recognised correctly? Is the detected emotion the real one? |
-| 4. Decide upon adaptation | Is intervening necessary? Is the strategy appropriate? | Necessity, appropriateness, subjective acceptance | Push or pull a recommendation? Mirror the user's emotion? |
-| 5. Apply adaptation | Does the concrete instantiation work, is it understood, is it liked? | Usability, obtrusiveness, acceptance, timeliness, user control | Is the TTS voice understandable? Do people recognise the robot's expressed emotion? |
-
-- **Exercise answers:**
-  - Hug robot deciding *whether* to hug: layer 4, decide.
-  - "Users who play a song more than 5 times would recommend it": layer 2/3, interpretation or modelling.
-  - TTS intelligibility: layer 5, apply.
-- **WoZ and layered evaluation:** a WoZ simulates one layer while you evaluate another. Every WoZ is a layered evaluation, but not every layered evaluation needs a wizard.
-- **Benefits:** separation of concerns, catches wrong assumptions, guides formative development.
-- **Drawbacks:** the whole is more than the sum of its parts; layers can interact unexpectedly.
+Check each deck against the rubric (section 2.3) and list any dimension at risk. Three days before each deadline, remind the team of what's missing.
 
 ---
 
-## 10. Conversational UX design (Moore & Arar 2018)
+## 17. Course knowledge quick reference (cite these by name)
 
-- Interfaces evolved from CLI to GUI to NUI, AR/VR and **natural language interfaces**. With command lines, users learned the computer's language; with NLIs, the computer learns the user's.
-- NLP doesn't tell you how to *sequence* utterances. Use **Conversation Analysis (CA)**: turn-taking, sequence organization, repair. Embrace conversational complexity rather than simplifying it away.
+The full version is in `docs/course-knowledge.md`.
 
-**Four interaction styles of chatbots:**
-1. **System-centric:** like search or voice commands. Only queries, user-driven, two-turn sequences, no memory; can't handle "thanks" or "what do you mean?".
-2. **Content-centric:** FAQ-like, with long document-style answers. Incompatible with voice; little back-and-forth.
-3. **Visual-centric:** buttons and lists, agent-led and linear. Often **"hijacks 3rd position"**: it asks "Was this useful?" immediately instead of letting the user react to the answer.
-4. **Conversation-centric** (the recommended style):
-   - Supports **conversation management** ("what did you say?", "never mind", "okay").
-   - Short, bite-sized turns.
-   - Mixed initiative and non-linear; the user can redirect.
-   - **Advantages:** specific answers, expandable detail, adapts to user knowledge, works on voice-only and any screen.
+### Nielsen's 10 heuristics
+1. Visibility of system status
+2. Match between system and real world
+3. User control & freedom
+4. Consistency & standards
+5. Error prevention
+6. Recognition rather than recall
+7. Flexibility & efficiency of use
+8. Aesthetic & minimalist design
+9. Help users recognise, diagnose & recover from errors
+10. Help & documentation
 
-**Conversation-first design**, analogous to mobile-first:
-- Make core functionality work through **words alone** (voice or text).
-- Then progressively enhance with visual aids.
-- Stay compatible across platforms.
+### Universal Design (7 principles)
+1. Equitable use
+2. Flexibility in use
+3. Simple & intuitive
+4. Perceptible information
+5. Tolerance for error
+6. Low physical effort
+7. Size & space for approach and use
 
-**Three speaker design principles:**
-- **Recipient design:**
-  - Tailor talk to the recipient's knowledge.
-  - Offer multiple paths: experts get speed ("flights SFO→JFK Apr 17–30"), novices get hand-holding ("I'm going on vacation!").
-- **Minimization:**
-  - Use as few words as needed for *this* recipient. It is secondary to recipient design.
-  - Example: "IATA code of origin?" should be "Which airport do you want to leave from?"
-- **Repair:**
-  - Build intents for "what did you say?", "what do you mean (by X)?", "can you give an example?", "no, I mean one way".
-  - Repair frees the designer from having to recognise intent on the first try.
-- **Combined strategy:** give concise answers first and let users expand them (definitions, paraphrases, examples) on demand.
+### Laws of UX
+- **Fitts:** big, close targets.
+- **Hick:** fewer choices, split into steps, highlight the recommended option.
+- **Occam:** remove until nothing more can go.
+- **Tesler:** move complexity into the system.
+- **Miller / working memory:** 4–7 chunks; carry information across screens.
+- **Serial position & peak-end:** first and last matter; end flows on a positive note.
+- **Gestalt:** proximity, similarity, common region.
+- **Aesthetic-usability effect:** pretty can hide problems in tests.
 
-**Conversation types:**
-- **Ordinary:** the most flexible.
-- **Service:** fixed roles. The opening is greeting, self-identification, organisation and offer of service, with a fast transition to the request.
-- **Teaching:** known-answer questions; correction is expected.
-- **Counselling:** the counselee leads; the counsellor reformulates.
-- All share the same machinery: turn-taking, sequences, repair.
+### Five types of exclusion
+Physical, conceptual, economic (e.g. needing a new phone), cultural, social. Cooly should run on older phones and slow connections.
 
-**Representing conversational UX:** use CA-style transcripts (numbered turns `A:` / `U:`) instead of wireframes.
+### PACT and requirements
+- **PACT:** People · Activities · Contexts (physical, social, organisational) · Technologies. Scenarios contain no UI details.
+- **Requirements:** user stories → SMART system requirements; functional vs non-functional; MoSCoW.
 
----
+### Prototyping
+- **Fidelity:** lo / mid / hi.
+- **Scope:** horizontal / vertical / scenario.
+- **Lifecycle:** throwaway / incremental / evolutionary. Cooly is evolutionary.
+- **Houde & Hill dimensions:** role, look & feel, implementation.
+- **Lim et al.:** prototypes as filters and manifestations.
 
-## 11. Quick checklists for future project work
+### AI prototyping risks (watch for them in your own output)
+- Fidelity trap / lock-in.
+- Illusion of completeness (missing states and paths).
+- Accessibility debt (`div` buttons, poor contrast).
+- Convergence to the mean (generic UI that ignores context). Section 11 exists to fight this.
 
-**Before designing**
-- [ ] PACT analysis done; user classes, ≥2 personas, scenarios free of UI details.
-- [ ] HTA for the key tasks, with plans.
-- [ ] User stories → SMART system requirements, both functional and non-functional (incl. accessibility, privacy, performance); MoSCoW priorities.
-- [ ] Requirements checked for vague words ("fast", "user friendly"); AI may assist, humans verify.
+### When to use AI
+- Manual for early mental models.
+- Hybrid for IA and card sorting.
+- AI-accelerated for layout and scaffolding.
+- Human audit for accessibility.
+- Hybrid for state logic.
 
-**IA & lo-fi**
-- [ ] Card sort (open, then closed), 4–6 top categories, labels clear, predictable and consistent.
-- [ ] Organization scheme chosen deliberately (exact vs inexact vs hybrid with clear divisions).
-- [ ] Global, local, contextual and supplemental navigation defined; the user always knows where they are.
-- [ ] Two structural variants compared (e.g. category-first vs search/map-first).
-- [ ] Greyscale lo-fi first; AI used to benchmark, not to decide.
-
-**Prototype / UI / code**
-- [ ] Every screen passes the 7 Universal Design questions.
-- [ ] Contrast ≥ 4.5:1 for text and ≥ 3:1 for large text, icons and outlines; colour is never the only cue.
-- [ ] Targets ≥ 44×44 (48 on a kiosk), well spaced (Fitts).
-- [ ] Visible keyboard focus; nothing hover-only; semantic HTML (`<button>`, `<nav>`, labels, alt text), screen-reader friendly.
-- [ ] One clear primary action per screen; labels say what happens; few choices (Hick); minimal design.
-- [ ] Always a way back (Back, Close, click outside); undo; error prevention; plain-language error messages with a fix.
-- [ ] Visible system status and feedback; recognition over recall (breadcrumbs, visited states, carry information across screens).
-- [ ] Empty, loading, error and edge-case states exist (avoid the "illusion of completeness").
-- [ ] AI-generated output audited and **logged in an AI iteration log** (prompt → output → what we changed → why).
-
-**Evaluation**
-- [ ] A focused, feasible research question of a stated type (descriptive / comparative / evaluative / defining / explaining / designing).
-- [ ] Method matched to the stage (expert vs user; design / prototype / deployment).
-- [ ] Heuristic evaluation: 3–5 independent evaluators, problems listed separately with the heuristic violated, severity = impact × frequency (+ cost).
-- [ ] Cognitive walkthrough: 4 questions per action step.
-- [ ] Experiment: IV / DV / confounders; within vs between (counterbalance, check order effects); inclusion/exclusion criteria; G*Power; validated questionnaires (SUS, UEQ, NASA-TLX…); analysis plan before data; pilot.
-- [ ] Ethics: RPT risk session, granular informed consent (purpose, tasks, risks, mitigations, data, anonymity, withdrawal), minimal PII, AI/LLM data-leak disclosure, HREC submission.
-- [ ] Adaptive or AI features: layered evaluation; WoZ with an explicit observation / action space / protocol.
-- [ ] Report: Participants, Procedure, Materials, Measures, Analysis, Results (M, SD, test statistics), Discussion (insights, future work, limitations). Essentials go in the main text, not the appendix.
-
-**Conversational / AI agents**
-- [ ] Conversation-centric, works with words alone; short turns; mixed initiative.
-- [ ] Repair intents and conversation management; don't hijack 3rd position.
-- [ ] Recipient design (expert and novice paths) plus minimization.
-- [ ] Check for AI bias; don't hide behind the "veil of objectivity"; consider the level of automation and keep a human in control where stakes are high.
+### Conversational UX (only if a chat feature is added)
+- Conversation-first.
+- Short turns.
+- Repair intents ("what do you mean?").
+- Recipient design + minimisation.
+- Don't hijack the third position.
 
 ---
 
-## 12. Source files (in this folder)
+## 18. Definition of done (every task)
 
-| File | Content |
-|---|---|
-| `1_Introduction_To_HCI2.pdf` | HCI, usability, PACT, personas, HTA, scenarios |
-| `2.Requirements_Class.pdf` | Requirements, SMART, MoSCoW, AI in requirements engineering, IA, labelling, card sorting, navigation |
-| `3_User_Experience (1).pdf` | Nielsen & Benyon principles, UX laws, SUS |
-| `4_Ethics_&_Accessibility_ClassroomDeck (2).pdf` | Research ethics, informed consent, exclusion, Universal Design |
-| `5_Design_Classroom_Deck (1).pdf` | Prototyping, fidelity, FindItOut example |
-| `6_Prototyping_AI.pdf` | Houde & Hill, Lim & Stolterman, AI prototyping risks and matrix |
-| `5.ExpertEvaluation 2026.pdf` | Research questions, cognitive walkthrough, heuristic evaluation, early user methods, reporting |
-| `6. UserEvaluation2026_UG.pdf` | Controlled experiments, measures, statistics, reporting |
-| `7.Adaptive systems 2026.pdf` | Adaptivity levels, models, emotion, WoZ, layered evaluation, exam info |
-| `6_RPT-Risk-planning tool.pdf` | TU Delft risk-planning tool and prompting questions |
-| `universal-design-questions.pdf` | UD cheat sheet with WCAG numbers |
-| `CSE12B Lab 2 …pptx`, `Activity 1–4 …html.zip` | Lab 2: IA, card sorting, wireframing, critique |
-| `CSE12B_Lab_3_…pptx` | Lab 3: Figma, accessibility, ethics, AI audit |
-| `Heuristic Evaluation_ How-To_ …pdf` | Nielsen (1994) article |
-| `Conversational UX Design.pdf` | Moore & Arar (2018) |
-| `Implications of AI Bias in HRI_Hitronetal2023.pdf` | Example user-study paper |
-| `List of things to read & watch*.html.zip` | Weekly reading and video lists |
+- [ ] Does what the requirement says; acceptance criteria met; requirement status updated
+- [ ] Works at 390 × 844 and on a real phone (Vercel preview), in light **and** dark
+- [ ] Empty, loading and error states exist and are written in plain language
+- [ ] Accessibility: semantic elements, labels, focus visible, contrast via tokens only, targets ≥ 44 px, no colour-only meaning, 200% zoom OK, reduced motion respected
+- [ ] Design: passes section 11.10; nothing from section 11.2
+- [ ] Recommender changes: unit tests added or updated; the allergy-exclusion tests pass
+- [ ] `npm run lint`, `typecheck`, `test`, `build` all pass
+- [ ] No secrets, no `console.log` noise, no dead code, no TODOs without an owner
+- [ ] AI log entry written; third-party, decisions and architecture docs updated if affected
+- [ ] Small commit(s) on a feature branch, clear messages; PR text with a "What the reviewer should check" list
+- [ ] Short "what changed / how to check / worth knowing" note for the teammate
+
+---
+
+## 19. Never
+
+- Push or merge to `main`, force-push, or rewrite shared history.
+- Commit secrets, or put server keys in client code.
+- Fabricate study data, participants, quotes, sources or "real" prices.
+- Write the team's final analytical or reflective text as if it were theirs.
+- Ship UI that relies on colour alone, hides focus, or uses `div` as a button.
+- Add the banned visual patterns in section 11.2, or AI-generated food photos.
+- Scrape supermarket websites or call unofficial store APIs.
+- Send allergy, diet or identifying data to any third-party service.
+- Change the approved scope (domain, target group, system goal, platform).
+- Skip the AI log because a task was "small".

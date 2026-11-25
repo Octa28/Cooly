@@ -1,10 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_STAPLES, INGREDIENTS, INGREDIENTS_BY_ID, RECIPES } from "@/lib/data";
+import { DEFAULT_STAPLES, INGREDIENTS, INGREDIENTS_BY_ID, OFFERS, RECIPES, STORES } from "@/lib/data";
 import { passesHardFilters, visibleIngredients } from "@/lib/recommender/filters";
-import { recommend, STATUS_ORDER } from "@/lib/recommender/matching";
+import { ANY_PRICE, rank } from "@/lib/recommender/ranking";
 import type { AllergenId, Constraints, Fridge } from "@/lib/types";
 
 const NONE: Constraints = { allergens: [], diet: null, equipment: null };
+
+// The full pipeline the UI uses: filters → matching → pricing → range → sort.
+function shown(fridge: Fridge, constraints: Constraints) {
+  const { ranked, outside } = rank({
+    recipes: RECIPES, fridge, staples: DEFAULT_STAPLES, byId: INGREDIENTS_BY_ID, constraints,
+    offers: OFFERS, stores: STORES, today: "2026-11-25", sort: "recommended", range: ANY_PRICE,
+  });
+  return [...ranked, ...outside].map((r) => r.match.recipe);
+}
 const ALL_ALLERGENS = [...new Set(INGREDIENTS.flatMap((i) => i.allergens))] as AllergenId[];
 
 // A fridge holding everything, so every recipe that passes the filters is "ready".
@@ -14,14 +23,11 @@ describe("allergen exclusion (safety-relevant)", () => {
   it.each(ALL_ALLERGENS)("no list ever shows a recipe that needs %s", (allergen) => {
     const c: Constraints = { ...NONE, allergens: [allergen] };
     for (const fridge of [{}, FULL_FRIDGE]) {
-      const groups = recommend(RECIPES, fridge, DEFAULT_STAPLES, INGREDIENTS_BY_ID, c);
-      for (const status of STATUS_ORDER) {
-        for (const match of groups[status]) {
-          const offending = match.recipe.ingredients.filter(
-            (item) => !item.optional && INGREDIENTS_BY_ID.get(item.id)!.allergens.includes(allergen),
-          );
-          expect(offending, `${match.recipe.id} contains ${allergen}`).toEqual([]);
-        }
+      for (const recipe of shown(fridge, c)) {
+        const offending = recipe.ingredients.filter(
+          (item) => !item.optional && INGREDIENTS_BY_ID.get(item.id)!.allergens.includes(allergen),
+        );
+        expect(offending, `${recipe.id} contains ${allergen}`).toEqual([]);
       }
     }
   });
@@ -48,15 +54,13 @@ describe("allergen exclusion (safety-relevant)", () => {
 
 describe("diet and equipment filters", () => {
   it("vegan keeps only recipes tagged vegan", () => {
-    const groups = recommend(RECIPES, {}, DEFAULT_STAPLES, INGREDIENTS_BY_ID, { ...NONE, diet: "vegan" });
-    const ids = STATUS_ORDER.flatMap((s) => groups[s].map((m) => m.recipe));
-    expect(ids.length).toBeGreaterThan(0);
-    for (const r of ids) expect(r.dietTags).toContain("vegan");
+    const recipes = shown({}, { ...NONE, diet: "vegan" });
+    expect(recipes.length).toBeGreaterThan(0);
+    for (const r of recipes) expect(r.dietTags).toContain("vegan");
   });
 
   it("excludes recipes that need equipment the user doesn't have", () => {
-    const groups = recommend(RECIPES, {}, DEFAULT_STAPLES, INGREDIENTS_BY_ID, { ...NONE, equipment: [] });
-    const ids = STATUS_ORDER.flatMap((s) => groups[s].map((m) => m.recipe.id)).sort();
+    const ids = shown({}, { ...NONE, equipment: [] }).map((r) => r.id).sort();
     expect(ids).toEqual(["greek-salad", "overnight-oats"]);
   });
 });

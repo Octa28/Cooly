@@ -63,6 +63,29 @@ export interface Recipe {
   source: string;
 }
 
+export interface Store {
+  id: string;
+  name: string;
+}
+
+/** One product at one store (CLAUDE.md 9.2 `offers`). Money in integer cents. */
+export interface Offer {
+  storeId: string;
+  ingredientId: string;
+  productName: string;
+  /** In the ingredient's canonical unit. */
+  packQuantity: number;
+  priceCents: number;
+  isOffer: boolean;
+  /** ISO dates; null = no limit. */
+  validFrom: string | null;
+  validTo: string | null;
+  sourceUrl: string | null;
+  collectedOn: string | null;
+  /** True for invented prices that haven't been checked in a store. */
+  example: boolean;
+}
+
 /** Ingredient id → quantity in that ingredient's canonical unit. */
 export type Fridge = Record<string, number>;
 

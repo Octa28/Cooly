@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { StatusMark, STATUS_TEXT_CLASS } from "@/components/ui/StatusMark";
-import { getIngredient } from "@/lib/data";
-import { formatAmount } from "@/lib/format";
+import { getIngredient, storeName } from "@/lib/data";
+import { formatAmount, formatEUR } from "@/lib/format";
+import type { Completion } from "@/lib/recommender/pricing";
 import type { Recipe, RecipeMatch } from "@/lib/types";
 
 const DIET_LABEL = { vegan: "Vegan", vegetarian: "Vegetarian" } as const;
@@ -18,10 +19,29 @@ function missingText(match: RecipeMatch): string {
     .join(", ");
 }
 
+/** "€1.85 to finish at Jumbo" (section 11.9: numbers over adjectives). */
+function costText(completion: Completion, everything: boolean): string {
+  const shops = new Set(completion.items.map((i) => i.storeId)).size;
+  const where = completion.storeId ? `at ${storeName(completion.storeId)}` : `across ${shops} shops`;
+  const what = everything ? "to buy everything" : "to finish";
+  const unpriced = completion.unpriced.length
+    ? ` · No price yet for ${completion.unpriced.map((id) => getIngredient(id).name.toLowerCase()).join(", ")}`
+    : "";
+  return `${formatEUR(completion.cents)} ${what} ${where}${unpriced}`;
+}
+
+interface Props {
+  recipe: Recipe;
+  /** Null on the "Popular recipes" list, before anything is in the fridge. */
+  match: RecipeMatch | null;
+  completion: Completion;
+}
+
 /** Text-first recipe card (section 11.7: no photo is better than a fake one). */
-export function RecipeCard({ recipe, match }: { recipe: Recipe; match: RecipeMatch | null }) {
+export function RecipeCard({ recipe, match, completion }: Props) {
   const diet = recipe.dietTags.includes("vegan") ? DIET_LABEL.vegan : recipe.dietTags.includes("vegetarian") ? DIET_LABEL.vegetarian : null;
   const titleId = `recipe-${recipe.id}`;
+  const needsShopping = !match || match.missingCount > 0;
 
   return (
     <article aria-labelledby={titleId} className="rounded-card border border-line bg-surface p-4">
@@ -51,6 +71,7 @@ export function RecipeCard({ recipe, match }: { recipe: Recipe; match: RecipeMat
         </div>
       )}
       {match && match.missingCount > 0 && <p className="mt-2 text-secondary">Need: {missingText(match)}</p>}
+      {needsShopping && <p className="mt-1 font-mono text-secondary">{costText(completion, !match)}</p>}
 
       <Link
         href={`/recipes/${recipe.id}`}

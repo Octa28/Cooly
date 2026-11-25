@@ -17,3 +17,5 @@ Format: CLAUDE.md section 14.3.
 | Atkinson Hyperlegible Next | font | Body text | SIL OFL 1.1 | https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next | 2026-11-25 |
 | IBM Plex Mono | font | Numbers, amounts, minutes | SIL OFL 1.1 | https://fonts.google.com/specimen/IBM+Plex+Mono | 2026-11-25 |
 | Recipes and ingredients in `data/` | dataset | Example recipes | Written for this project (not checked by the team yet) | — | 2026-11-25 |
+| Radix UI Dialog (`@radix-ui/react-dialog`) | library | Accessible bottom sheets (focus trap, Esc, focus return) | MIT | https://www.radix-ui.com/primitives/docs/components/dialog | 2026-11-25 |
+| Example offers in `data/offers.json` | dataset | Placeholder Albert Heijn / Jumbo prices | Invented for this project, not real prices | — | 2026-11-25 |

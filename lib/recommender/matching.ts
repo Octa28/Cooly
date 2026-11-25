@@ -1,4 +1,4 @@
-import { passesHardFilters, visibleIngredients } from "@/lib/recommender/filters";
+import { visibleIngredients } from "@/lib/recommender/filters";
 import type { Constraints, Fridge, Ingredient, IngredientMatch, Recipe, RecipeMatch, Status } from "@/lib/types";
 
 type Lookup = ReadonlyMap<string, Ingredient>;
@@ -35,31 +35,4 @@ export function matchRecipe(
 
   const missingCount = items.filter((i) => i.state !== "covered").length;
   return { recipe, items, haveCount: items.length - missingCount, missingCount, status: statusFor(missingCount) };
-}
-
-export type GroupedResults = Record<Status, RecipeMatch[]>;
-
-/**
- * Filters, matches and groups recipes into the three lists.
- * Within a list: larger share already in the fridge first, then quicker recipes.
- * TODO(team): put "cost to complete" first once data/offers.json exists (9.4, 9.5).
- */
-export function recommend(
-  recipes: readonly Recipe[],
-  fridge: Fridge,
-  staples: ReadonlySet<string>,
-  byId: Lookup,
-  c: Constraints,
-): GroupedResults {
-  const groups: GroupedResults = { ready: [], few: [], many: [] };
-  for (const recipe of recipes) {
-    if (!passesHardFilters(recipe, byId, c)) continue;
-    const match = matchRecipe(recipe, fridge, staples, byId, c);
-    groups[match.status].push(match);
-  }
-  const share = (m: RecipeMatch) => (m.items.length ? m.haveCount / m.items.length : 1);
-  for (const status of STATUS_ORDER) {
-    groups[status].sort((a, b) => share(b) - share(a) || a.recipe.minutes - b.recipe.minutes);
-  }
-  return groups;
 }

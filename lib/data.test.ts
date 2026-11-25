@@ -37,3 +37,23 @@ describe("data files", () => {
     }
   });
 });
+
+describe("money formatting", async () => {
+  const { formatEUR, parseEuroInput } = await import("@/lib/format");
+  it("formats cents as euros", () => {
+    expect(formatEUR(240)).toBe("€2.40");
+    expect(formatEUR(0)).toBe("€0.00");
+  });
+  it.each([
+    ["2.5", 250],
+    ["2,50", 250],
+    ["€ 3", 300],
+    ["0", 0],
+    ["abc", null],
+    ["-1", null],
+    ["2.555", null],
+    ["", null],
+  ] as const)("parses %j", (text, cents) => {
+    expect(parseEuroInput(text)).toBe(cents);
+  });
+});

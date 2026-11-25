@@ -101,6 +101,65 @@ body {
   }
 }
 
+/*
+ * Two-handle price slider: two transparent native range inputs on top of each other.
+ * Only the thumbs take pointer events. Each thumb is a 44 px target (UD 7) drawn as a
+ * 22 px accent dot with a surface ring; a second accent ring shows keyboard focus.
+ */
+.range-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  pointer-events: none;
+  outline: none;
+  margin: 0;
+}
+.range-thumb::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 44px;
+}
+.range-thumb::-moz-range-track {
+  background: transparent;
+}
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  cursor: grab;
+  background: radial-gradient(circle, var(--accent) 0 11px, var(--surface) 11.5px 13px, transparent 13.5px);
+}
+.range-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  cursor: grab;
+  background: radial-gradient(circle, var(--accent) 0 11px, var(--surface) 11.5px 13px, transparent 13.5px);
+}
+.range-thumb:focus-visible::-webkit-slider-thumb {
+  background: radial-gradient(circle, var(--accent) 0 11px, var(--surface) 11.5px 13px, var(--accent) 13.5px 15.5px, transparent 16px);
+}
+.range-thumb:focus-visible::-moz-range-thumb {
+  background: radial-gradient(circle, var(--accent) 0 11px, var(--surface) 11.5px 13px, var(--accent) 13.5px 15.5px, transparent 16px);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
 @keyframes toast-in {
   from {
     opacity: 0;

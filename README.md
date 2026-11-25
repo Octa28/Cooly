@@ -2,6 +2,8 @@
 
 **An AI-driven recipe recommender for students on a strict budget, built as a mobile web application.**
 
+**Live prototype:** https://octa28.github.io/Cooly/
+
 Cooly helps students cook with what they already have. You tell it what's in your fridge (with quantities) and how much you're willing to spend, and it recommends recipes from a curated set that best match your ingredients. When something is missing, it uses current offers from Dutch supermarkets to show the cheapest way to complete the recipe, so you waste less food and spend less on groceries.
 
 | | |

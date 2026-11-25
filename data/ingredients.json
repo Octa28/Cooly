@@ -1,0 +1,649 @@
+[
+  {
+    "id": "pasta",
+    "name": "Pasta",
+    "aliases": [
+      "spaghetti",
+      "penne",
+      "macaroni"
+    ],
+    "category": "Grains & bread",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 500,
+    "allergens": [
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "rice",
+    "name": "Rice",
+    "aliases": [],
+    "category": "Grains & bread",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 1000,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "noodles",
+    "name": "Wheat noodles",
+    "aliases": [
+      "noodles",
+      "ramen",
+      "mie"
+    ],
+    "category": "Grains & bread",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 250,
+    "allergens": [
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "bread",
+    "name": "Bread",
+    "aliases": [
+      "toast",
+      "brood",
+      "slices"
+    ],
+    "category": "Grains & bread",
+    "unit": "pcs",
+    "gramsPerPiece": 35,
+    "defaultQuantity": 10,
+    "allergens": [
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "tortilla",
+    "name": "Tortilla wraps",
+    "aliases": [
+      "wraps",
+      "tortillas"
+    ],
+    "category": "Grains & bread",
+    "unit": "pcs",
+    "gramsPerPiece": 40,
+    "defaultQuantity": 8,
+    "allergens": [
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "oats",
+    "name": "Oats",
+    "aliases": [
+      "oatmeal",
+      "havermout"
+    ],
+    "category": "Grains & bread",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 500,
+    "allergens": [
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "egg",
+    "name": "Eggs",
+    "aliases": [
+      "egg",
+      "eieren"
+    ],
+    "category": "Dairy & eggs",
+    "unit": "pcs",
+    "gramsPerPiece": 60,
+    "defaultQuantity": 6,
+    "allergens": [
+      "eggs"
+    ],
+    "animal": "egg"
+  },
+  {
+    "id": "milk",
+    "name": "Milk",
+    "aliases": [
+      "melk"
+    ],
+    "category": "Dairy & eggs",
+    "unit": "ml",
+    "gramsPerPiece": null,
+    "defaultQuantity": 1000,
+    "allergens": [
+      "milk"
+    ],
+    "animal": "dairy"
+  },
+  {
+    "id": "butter",
+    "name": "Butter",
+    "aliases": [
+      "boter"
+    ],
+    "category": "Dairy & eggs",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 250,
+    "allergens": [
+      "milk"
+    ],
+    "animal": "dairy"
+  },
+  {
+    "id": "cheese",
+    "name": "Grated cheese",
+    "aliases": [
+      "cheese",
+      "kaas",
+      "gouda"
+    ],
+    "category": "Dairy & eggs",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 200,
+    "allergens": [
+      "milk"
+    ],
+    "animal": "dairy"
+  },
+  {
+    "id": "parmesan",
+    "name": "Parmesan",
+    "aliases": [
+      "parmigiano"
+    ],
+    "category": "Dairy & eggs",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 100,
+    "allergens": [
+      "milk"
+    ],
+    "animal": "dairy"
+  },
+  {
+    "id": "feta",
+    "name": "Feta",
+    "aliases": [],
+    "category": "Dairy & eggs",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 200,
+    "allergens": [
+      "milk"
+    ],
+    "animal": "dairy"
+  },
+  {
+    "id": "onion",
+    "name": "Onions",
+    "aliases": [
+      "onion",
+      "ui",
+      "uien"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 150,
+    "defaultQuantity": 3,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic",
+    "aliases": [
+      "knoflook",
+      "cloves"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 5,
+    "defaultQuantity": 10,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "tomato",
+    "name": "Tomatoes",
+    "aliases": [
+      "tomato",
+      "tomaten"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 120,
+    "defaultQuantity": 4,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "potato",
+    "name": "Potatoes",
+    "aliases": [
+      "potato",
+      "aardappelen"
+    ],
+    "category": "Vegetables",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 1000,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "carrot",
+    "name": "Carrots",
+    "aliases": [
+      "carrot",
+      "wortel"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 80,
+    "defaultQuantity": 4,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "bell-pepper",
+    "name": "Bell pepper",
+    "aliases": [
+      "paprika",
+      "capsicum"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 150,
+    "defaultQuantity": 2,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "aliases": [
+      "spinazie"
+    ],
+    "category": "Vegetables",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 200,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "broccoli",
+    "name": "Broccoli",
+    "aliases": [],
+    "category": "Vegetables",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "mushroom",
+    "name": "Mushrooms",
+    "aliases": [
+      "mushroom",
+      "champignons"
+    ],
+    "category": "Vegetables",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 250,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "cucumber",
+    "name": "Cucumber",
+    "aliases": [
+      "komkommer"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 300,
+    "defaultQuantity": 1,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "avocado",
+    "name": "Avocado",
+    "aliases": [],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 150,
+    "defaultQuantity": 2,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "chili",
+    "name": "Fresh chili",
+    "aliases": [
+      "chilli",
+      "peper"
+    ],
+    "category": "Vegetables",
+    "unit": "pcs",
+    "gramsPerPiece": 10,
+    "defaultQuantity": 2,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "ginger",
+    "name": "Ginger",
+    "aliases": [
+      "gember"
+    ],
+    "category": "Vegetables",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 50,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "lemon",
+    "name": "Lemon",
+    "aliases": [
+      "lime",
+      "citroen"
+    ],
+    "category": "Fruit",
+    "unit": "pcs",
+    "gramsPerPiece": 100,
+    "defaultQuantity": 2,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "banana",
+    "name": "Bananas",
+    "aliases": [
+      "banana",
+      "bananen"
+    ],
+    "category": "Fruit",
+    "unit": "pcs",
+    "gramsPerPiece": 120,
+    "defaultQuantity": 5,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "peas",
+    "name": "Frozen peas",
+    "aliases": [
+      "peas",
+      "doperwten"
+    ],
+    "category": "Frozen",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 450,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "canned-tomatoes",
+    "name": "Canned tomatoes",
+    "aliases": [
+      "tinned tomatoes",
+      "passata",
+      "tomatenblokjes"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "chickpeas",
+    "name": "Chickpeas (can)",
+    "aliases": [
+      "chickpeas",
+      "garbanzo",
+      "kikkererwten"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "black-beans",
+    "name": "Black beans (can)",
+    "aliases": [
+      "black beans",
+      "beans",
+      "bonen"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "corn",
+    "name": "Sweetcorn (can)",
+    "aliases": [
+      "corn",
+      "sweetcorn",
+      "mais"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 300,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "tuna",
+    "name": "Tuna (can)",
+    "aliases": [
+      "tuna",
+      "tonijn"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 150,
+    "allergens": [
+      "fish"
+    ],
+    "animal": "fish"
+  },
+  {
+    "id": "coconut-milk",
+    "name": "Coconut milk",
+    "aliases": [
+      "kokosmelk"
+    ],
+    "category": "Cans & jars",
+    "unit": "ml",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "peanut-butter",
+    "name": "Peanut butter",
+    "aliases": [
+      "pindakaas"
+    ],
+    "category": "Cans & jars",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 350,
+    "allergens": [
+      "peanuts"
+    ],
+    "animal": null
+  },
+  {
+    "id": "lentils",
+    "name": "Red lentils",
+    "aliases": [
+      "lentils",
+      "linzen"
+    ],
+    "category": "Dry goods",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 500,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "curry-powder",
+    "name": "Curry powder",
+    "aliases": [
+      "curry",
+      "kerrie"
+    ],
+    "category": "Dry goods",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 50,
+    "allergens": [
+      "mustard"
+    ],
+    "animal": null
+  },
+  {
+    "id": "soy-sauce",
+    "name": "Soy sauce",
+    "aliases": [
+      "soya",
+      "ketjap"
+    ],
+    "category": "Sauces",
+    "unit": "ml",
+    "gramsPerPiece": null,
+    "defaultQuantity": 150,
+    "allergens": [
+      "soybeans",
+      "gluten"
+    ],
+    "animal": null
+  },
+  {
+    "id": "honey",
+    "name": "Honey",
+    "aliases": [
+      "honing"
+    ],
+    "category": "Sauces",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 250,
+    "allergens": [],
+    "animal": "honey"
+  },
+  {
+    "id": "tofu",
+    "name": "Tofu",
+    "aliases": [],
+    "category": "Meat, fish & tofu",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 400,
+    "allergens": [
+      "soybeans"
+    ],
+    "animal": null
+  },
+  {
+    "id": "chicken",
+    "name": "Chicken breast",
+    "aliases": [
+      "chicken",
+      "kip",
+      "kipfilet"
+    ],
+    "category": "Meat, fish & tofu",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 500,
+    "allergens": [],
+    "animal": "meat"
+  },
+  {
+    "id": "bacon",
+    "name": "Bacon bits",
+    "aliases": [
+      "bacon",
+      "spekjes",
+      "pancetta"
+    ],
+    "category": "Meat, fish & tofu",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 150,
+    "allergens": [],
+    "animal": "pork"
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "aliases": [],
+    "category": "Basics",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 500,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "pepper",
+    "name": "Black pepper",
+    "aliases": [
+      "pepper"
+    ],
+    "category": "Basics",
+    "unit": "g",
+    "gramsPerPiece": null,
+    "defaultQuantity": 50,
+    "allergens": [],
+    "animal": null
+  },
+  {
+    "id": "oil",
+    "name": "Cooking oil",
+    "aliases": [
+      "oil",
+      "olive oil",
+      "olie"
+    ],
+    "category": "Basics",
+    "unit": "ml",
+    "gramsPerPiece": null,
+    "defaultQuantity": 1000,
+    "allergens": [],
+    "animal": null
+  }
+]

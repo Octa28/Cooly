@@ -1,0 +1,1095 @@
+[
+  {
+    "id": "pasta-pomodoro",
+    "title": "Pasta al pomodoro",
+    "cuisine": "Italian",
+    "summary": "Pasta in a quick garlic and tomato sauce.",
+    "servings": 2,
+    "minutes": 20,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "pasta",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      },
+      {
+        "id": "salt",
+        "quantity": 5,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Bring a big pot of salted water to the boil and cook the pasta.",
+      "Meanwhile, soften the chopped onion and garlic in oil for 5 minutes.",
+      "Add the canned tomatoes, season and simmer for 10 minutes.",
+      "Drain the pasta, keep a splash of the water, and toss it through the sauce."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 1,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "egg-fried-rice",
+    "title": "Egg fried rice",
+    "cuisine": "Chinese",
+    "summary": "Leftover rice, eggs and peas in one pan.",
+    "servings": 2,
+    "minutes": 15,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "egg",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "peas",
+        "quantity": 100,
+        "optional": false
+      },
+      {
+        "id": "carrot",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "soy-sauce",
+        "quantity": 20,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Use cold cooked rice; yesterday's is ideal.",
+      "Fry the garlic and diced carrot in a hot pan for 2 minutes.",
+      "Push everything aside, scramble the eggs, then mix them in.",
+      "Add the rice and peas, stir-fry for 4 minutes and finish with soy sauce."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 2,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "shakshuka",
+    "title": "Shakshuka",
+    "cuisine": "North African",
+    "summary": "Eggs gently cooked in a spiced pepper and tomato sauce.",
+    "servings": 2,
+    "minutes": 25,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "egg",
+        "quantity": 4,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "bell-pepper",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "chili",
+        "quantity": 1,
+        "optional": true
+      },
+      {
+        "id": "bread",
+        "quantity": 2,
+        "optional": true
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Soften the onion and sliced pepper in a wide pan for 8 minutes.",
+      "Add garlic and chili, then the tomatoes. Simmer for 10 minutes.",
+      "Make small wells and crack the eggs into them.",
+      "Cover and cook gently until the whites are set. Serve with bread if you have it."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 3,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "chickpea-curry",
+    "title": "Chickpea and spinach curry",
+    "cuisine": "Indian",
+    "summary": "A mild coconut curry with chickpeas and spinach.",
+    "servings": 2,
+    "minutes": 30,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "chickpeas",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "coconut-milk",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "curry-powder",
+        "quantity": 10,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "spinach",
+        "quantity": 100,
+        "optional": false
+      },
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Start the rice.",
+      "Fry the onion and garlic, then stir in the curry powder for 1 minute.",
+      "Add the drained chickpeas and coconut milk. Simmer for 15 minutes.",
+      "Stir in the spinach until it wilts. Serve over the rice."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 4,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "peanut-noodles",
+    "title": "Peanut noodles",
+    "cuisine": "Southeast Asian",
+    "summary": "Cold or warm noodles in a peanut and soy dressing.",
+    "servings": 2,
+    "minutes": 15,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "noodles",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "peanut-butter",
+        "quantity": 40,
+        "optional": false
+      },
+      {
+        "id": "soy-sauce",
+        "quantity": 30,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "carrot",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "cucumber",
+        "quantity": 1,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Cook the noodles and rinse them under cold water.",
+      "Whisk the peanut butter, soy sauce, grated garlic and a splash of hot water.",
+      "Cut the carrot and cucumber into thin sticks.",
+      "Toss everything together. It works warm or cold."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 5,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "lentil-soup",
+    "title": "Red lentil soup (mercimek)",
+    "cuisine": "Turkish",
+    "summary": "A thick, cheap soup that keeps for days.",
+    "servings": 2,
+    "minutes": 35,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "lentils",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "carrot",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "lemon",
+        "quantity": 1,
+        "optional": true
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      },
+      {
+        "id": "salt",
+        "quantity": 5,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Chop the onion and carrot and soften them in oil for 5 minutes.",
+      "Add the garlic, rinsed lentils, tomatoes and 1 litre of water.",
+      "Simmer for 25 minutes until the lentils fall apart.",
+      "Blend roughly or leave chunky. Squeeze in lemon if you have it."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 6,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "spanish-omelette",
+    "title": "Spanish omelette",
+    "cuisine": "Spanish",
+    "summary": "Potatoes and onion set in eggs; good cold the next day.",
+    "servings": 2,
+    "minutes": 30,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "egg",
+        "quantity": 4,
+        "optional": false
+      },
+      {
+        "id": "potato",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 60,
+        "optional": false
+      },
+      {
+        "id": "salt",
+        "quantity": 5,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Slice the potatoes and onion thinly.",
+      "Cook them slowly in plenty of oil for 15 minutes until soft, then drain.",
+      "Beat the eggs, mix in the potatoes and pour it all back into the pan.",
+      "Cook on low heat, flip with a plate, then cook the other side for 3 minutes."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 7,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "jollof-rice",
+    "title": "Jollof-style rice",
+    "cuisine": "West African",
+    "summary": "Rice cooked in a smoky tomato and pepper sauce.",
+    "servings": 2,
+    "minutes": 40,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "bell-pepper",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "chili",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "curry-powder",
+        "quantity": 5,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 30,
+        "optional": false
+      },
+      {
+        "id": "salt",
+        "quantity": 5,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Blend the tomatoes, pepper, half the onion and the chili.",
+      "Fry the rest of the onion, add the blended sauce and cook for 10 minutes.",
+      "Stir in the curry powder, the rinsed rice and 250 ml of water.",
+      "Cover and cook on low heat for 20 minutes without stirring."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 8,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "carbonara",
+    "title": "Pasta carbonara",
+    "cuisine": "Italian",
+    "summary": "Pasta with egg, parmesan and crisp bacon.",
+    "servings": 2,
+    "minutes": 20,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "pasta",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "egg",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "bacon",
+        "quantity": 100,
+        "optional": false
+      },
+      {
+        "id": "parmesan",
+        "quantity": 40,
+        "optional": false
+      },
+      {
+        "id": "pepper",
+        "quantity": 2,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Cook the pasta in salted water.",
+      "Fry the bacon until crisp.",
+      "Whisk the eggs with the grated parmesan and plenty of pepper.",
+      "Off the heat, toss the pasta with the bacon, then the egg mix and a splash of pasta water."
+    ],
+    "dietTags": [],
+    "featuredRank": 9,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "bean-tacos",
+    "title": "Black bean tacos",
+    "cuisine": "Mexican",
+    "summary": "Warm wraps with beans, corn and avocado.",
+    "servings": 2,
+    "minutes": 15,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "tortilla",
+        "quantity": 4,
+        "optional": false
+      },
+      {
+        "id": "black-beans",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "corn",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "avocado",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "lemon",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Warm the beans and corn in a pan with a pinch of salt.",
+      "Mash the avocado with lemon juice.",
+      "Finely chop the onion.",
+      "Warm the wraps and fill them."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 10,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "overnight-oats",
+    "title": "Overnight oats",
+    "cuisine": "Breakfast",
+    "summary": "Oats soaked overnight; no cooking needed.",
+    "servings": 2,
+    "minutes": 5,
+    "equipment": [],
+    "ingredients": [
+      {
+        "id": "oats",
+        "quantity": 80,
+        "optional": false
+      },
+      {
+        "id": "milk",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "banana",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "peanut-butter",
+        "quantity": 15,
+        "optional": true
+      },
+      {
+        "id": "honey",
+        "quantity": 10,
+        "optional": true
+      }
+    ],
+    "steps": [
+      "Mix the oats and milk in a jar.",
+      "Stir in a spoon of peanut butter and some honey if you like.",
+      "Leave it in the fridge overnight.",
+      "Top with sliced banana in the morning."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 11,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "tuna-pasta",
+    "title": "Tuna tomato pasta",
+    "cuisine": "Italian",
+    "summary": "Store-cupboard pasta with tuna and tomato.",
+    "servings": 2,
+    "minutes": 20,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "pasta",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "tuna",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "cheese",
+        "quantity": 40,
+        "optional": true
+      }
+    ],
+    "steps": [
+      "Cook the pasta.",
+      "Soften the onion, add the tomatoes and simmer for 8 minutes.",
+      "Flake in the drained tuna and warm it through.",
+      "Mix with the pasta and top with cheese if you have it."
+    ],
+    "dietTags": [
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 12,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "tofu-stir-fry",
+    "title": "Tofu and broccoli stir-fry",
+    "cuisine": "Chinese",
+    "summary": "Crispy tofu and vegetables over rice.",
+    "servings": 2,
+    "minutes": 25,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "tofu",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "broccoli",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "bell-pepper",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "carrot",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "soy-sauce",
+        "quantity": 30,
+        "optional": false
+      },
+      {
+        "id": "ginger",
+        "quantity": 10,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 30,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Start the rice. Press the tofu dry and cut it into cubes.",
+      "Fry the tofu until golden, then set it aside.",
+      "Stir-fry the vegetables with ginger and garlic for 5 minutes.",
+      "Add the tofu back with the soy sauce and serve over rice."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 13,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "chili-sin-carne",
+    "title": "Chili sin carne",
+    "cuisine": "Mexican",
+    "summary": "A big pot of bean chili that freezes well.",
+    "servings": 2,
+    "minutes": 35,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "black-beans",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "canned-tomatoes",
+        "quantity": 400,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "bell-pepper",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "corn",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "chili",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Start the rice.",
+      "Soften the onion, pepper, garlic and chili for 8 minutes.",
+      "Add the beans, corn and tomatoes and simmer for 20 minutes.",
+      "Serve over rice. Freeze what's left."
+    ],
+    "dietTags": [
+      "vegan",
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 14,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "chicken-quesadilla",
+    "title": "Chicken quesadilla",
+    "cuisine": "Mexican",
+    "summary": "Toasted wraps with chicken, pepper and cheese.",
+    "servings": 2,
+    "minutes": 20,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "tortilla",
+        "quantity": 4,
+        "optional": false
+      },
+      {
+        "id": "chicken",
+        "quantity": 200,
+        "optional": false
+      },
+      {
+        "id": "cheese",
+        "quantity": 80,
+        "optional": false
+      },
+      {
+        "id": "bell-pepper",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 10,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Cut the chicken into strips and fry it until cooked through.",
+      "Add the sliced pepper and onion and cook for 4 minutes.",
+      "Fill half of each wrap with the mix and cheese, then fold.",
+      "Toast in a dry pan for 2 minutes per side."
+    ],
+    "dietTags": [],
+    "featuredRank": 15,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "avocado-toast",
+    "title": "Avocado toast with egg",
+    "cuisine": "Breakfast",
+    "summary": "Toast, mashed avocado and a fried egg.",
+    "servings": 2,
+    "minutes": 10,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "bread",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "avocado",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "lemon",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "egg",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "chili",
+        "quantity": 1,
+        "optional": true
+      }
+    ],
+    "steps": [
+      "Toast the bread.",
+      "Mash the avocado with lemon juice and salt.",
+      "Fry the eggs.",
+      "Spread, top with the eggs and a little chili."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 16,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "mushroom-risotto",
+    "title": "Mushroom risotto",
+    "cuisine": "Italian",
+    "summary": "Slow-stirred rice with mushrooms and parmesan.",
+    "servings": 2,
+    "minutes": 40,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "rice",
+        "quantity": 150,
+        "optional": false
+      },
+      {
+        "id": "mushroom",
+        "quantity": 250,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "garlic",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "parmesan",
+        "quantity": 40,
+        "optional": false
+      },
+      {
+        "id": "butter",
+        "quantity": 30,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Fry the sliced mushrooms in butter until golden, then set them aside.",
+      "Soften the onion and garlic, add the rice and stir for 1 minute.",
+      "Add hot water a ladle at a time, stirring, for about 20 minutes.",
+      "Stir in the mushrooms and parmesan."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 17,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "greek-salad",
+    "title": "Greek salad",
+    "cuisine": "Greek",
+    "summary": "Tomato, cucumber and feta; no cooking.",
+    "servings": 2,
+    "minutes": 10,
+    "equipment": [],
+    "ingredients": [
+      {
+        "id": "tomato",
+        "quantity": 3,
+        "optional": false
+      },
+      {
+        "id": "cucumber",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "feta",
+        "quantity": 100,
+        "optional": false
+      },
+      {
+        "id": "onion",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "lemon",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 15,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Cut the tomatoes and cucumber into chunks.",
+      "Slice the onion very thinly.",
+      "Dress with lemon juice, oil and salt.",
+      "Crumble the feta on top."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 18,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  },
+  {
+    "id": "banana-pancakes",
+    "title": "Banana oat pancakes",
+    "cuisine": "Breakfast",
+    "summary": "Three-ingredient pancakes, no flour.",
+    "servings": 2,
+    "minutes": 10,
+    "equipment": [
+      "stove"
+    ],
+    "ingredients": [
+      {
+        "id": "banana",
+        "quantity": 1,
+        "optional": false
+      },
+      {
+        "id": "egg",
+        "quantity": 2,
+        "optional": false
+      },
+      {
+        "id": "oats",
+        "quantity": 40,
+        "optional": false
+      },
+      {
+        "id": "oil",
+        "quantity": 10,
+        "optional": false
+      }
+    ],
+    "steps": [
+      "Mash the banana with the eggs.",
+      "Stir in the oats.",
+      "Fry small spoonfuls in a lightly oiled pan for 2 minutes per side."
+    ],
+    "dietTags": [
+      "vegetarian",
+      "pescatarian",
+      "halal"
+    ],
+    "featuredRank": 19,
+    "source": "Team-curated placeholder, not yet checked by the team"
+  }
+]
